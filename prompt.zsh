@@ -1,5 +1,7 @@
 setopt prompt_subst
 
+source ~/zsh-prompt/colors.zsh
+
 autoload -Uz vcs_info
 zstyle ":vcs_info:*" enable git svn
 zstyle ":vcs_info:*" check-for-changes true  
@@ -21,11 +23,11 @@ zstyle ":vcs_info:*" formats "[%b]"
 zstyle ":vcs_info:*" actionformats "[%b|%a]"  
 
 vcs_setup() {
- vcs_info
+  vcs_info
   if [[ -n ${vcs_info_msg_0_} ]]; then
     # Get the number of changes
-    changes=$(count_changes)
     # Append the changes to the VCS info
+    changes=$(count_changes)
     vcs_info_msg_0_="${vcs_info_msg_0_} $changes"
   fi
 }
@@ -59,15 +61,6 @@ chpwd() {
 precmd() {
   update_vcs_info
 }
-
-COLOR1=#05668d
-COLOR2=#028090
-COLOR3=#00a896
-COLOR4=#02c39a
-COLOR5=#f0f3bd
-
-COLOR_BG=$COLOR1
-COLOR_TEXT=#ffffff
 
 local char_open="\ue0b6"
 local char_close="\ue0b4"
