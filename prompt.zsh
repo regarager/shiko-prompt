@@ -1,39 +1,48 @@
-setopt prompt_subst
 
-source ~/zsh-prompt/colors.zsh
+source ~/shiko-prompt/colors.zsh
+source ~/shiko-prompt/icons.zsh
 
 autoload -Uz vcs_info
+
 zstyle ":vcs_info:*" enable git svn
 zstyle ":vcs_info:*" check-for-changes true
 
-count_changes() {
-  local unstaged=0
-  local staged=0
+git_info() {
+  local ref
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || \
+  ref=$(git rev-parse --short HEAD 2> /dev/null) || return 0
 
-  unstaged=$(git status --porcelain | grep -E "^.[MDA]" | wc -l | tr -d " ")
+  local branch="${ref#refs/heads/}"
 
+  local changes=$(git status --porcelain | awk '{print substr($0, 1, 2)}' | sort | uniq -c | sed -e 's/^[[:space:]]*//')
 
-  staged=$(git status --porcelain | grep -E "^[MDA]" | wc -l | tr -d " ")
+  local change_status=""
 
+  while IFS= read -r line; do
+    count=$(echo $line | awk '{print $1}')
+    code=${line: -2}
 
-  echo "+${staged:+$staged} *${unstaged}"
-}
+    case "$code" in
+      "??") untracked=$((untracked + count)) ;;
+      " M") modified_not_staged=$((modified_not_staged + count)) ;;
+    esac
+  done <<< "$changes"
 
-zstyle ":vcs_info:*" formats "[%b]"
-zstyle ":vcs_info:*" actionformats "[%b|%a]"
-
-vcs_setup() {
-  vcs_info
-  if [[ -n ${vcs_info_msg_0_} ]]; then
-    # Get the number of changes
-    # Append the changes to the VCS info
-    changes=$(count_changes)
-    vcs_info_msg_0_="${vcs_info_msg_0_} $(text $COLOR3)$changes"
+  # Construct the output string
+  if [[ $untracked -gt 0 ]]; then
+    change_status+="+$untracked "
   fi
-}
-# Update vcs_info before each prompt
-precmd() {
-  vcs_setup
+  if [[ $modified_not_staged -gt 0 ]]; then
+    change_status+="*$modified_not_staged "
+  fi
+
+  local res="$ICON_BRANCH $branch "
+
+  if [[ -n change_status ]]; then
+    res+="$(text $COLOR_CHANGE)$change_status$reset "
+  fi
+
+  echo $res
 }
 
 text_bg() {
@@ -49,8 +58,6 @@ bg() {
 }
 
 update_vcs_info() {
-  vcs_setup
-
   PROMPT=$(build_prompt)
 }
 
@@ -62,31 +69,25 @@ precmd() {
   update_vcs_info
 }
 
-local char_open="\ue0b6"
-local char_close="\ue0b4"
-local char_close_inner=""
-local arrow="➔"
 local reset="%f%k"
 
 build_prompt() {
   local p=""
 
   p+=$(text $COLOR1)
-  p+=" %B%~ %b"
+  p+="%B%~%b "
   p+=$reset
   p+="$(text $COLOR2)"
 
-  if [[ $vcs_info_msg_0_ = *[!\ ]* ]]; then
-    p+='${vcs_info_msg_0_} '
-  else
-  fi
+  p+="$(git_info)"
 
   p+=$reset
   p+="$(text $COLOR4)"
-  p+=$arrow
+  p+=$ICON_ARROW
   p+=$reset
 
   echo "$p "
 }
 
+setopt prompt_subst
 PROMPT="$(build_prompt)"
