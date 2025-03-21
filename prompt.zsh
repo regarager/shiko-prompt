@@ -4,7 +4,7 @@ source ~/zsh-prompt/colors.zsh
 
 autoload -Uz vcs_info
 zstyle ":vcs_info:*" enable git svn
-zstyle ":vcs_info:*" check-for-changes true  
+zstyle ":vcs_info:*" check-for-changes true
 
 count_changes() {
   local unstaged=0
@@ -12,15 +12,15 @@ count_changes() {
 
   unstaged=$(git status --porcelain | grep -E "^.[MDA]" | wc -l | tr -d " ")
 
-  
+
   staged=$(git status --porcelain | grep -E "^[MDA]" | wc -l | tr -d " ")
 
-  
+
   echo "+${staged:+$staged} *${unstaged}"
 }
 
-zstyle ":vcs_info:*" formats "[%b]"  
-zstyle ":vcs_info:*" actionformats "[%b|%a]"  
+zstyle ":vcs_info:*" formats "[%b]"
+zstyle ":vcs_info:*" actionformats "[%b|%a]"
 
 vcs_setup() {
   vcs_info
@@ -28,7 +28,7 @@ vcs_setup() {
     # Get the number of changes
     # Append the changes to the VCS info
     changes=$(count_changes)
-    vcs_info_msg_0_="${vcs_info_msg_0_} $changes"
+    vcs_info_msg_0_="${vcs_info_msg_0_} $(text $COLOR3)$changes"
   fi
 }
 # Update vcs_info before each prompt
@@ -65,32 +65,25 @@ precmd() {
 local char_open="\ue0b6"
 local char_close="\ue0b4"
 local char_close_inner=""
+local arrow="➔"
 local reset="%f%k"
 
 build_prompt() {
   local p=""
 
   p+=$(text $COLOR1)
-  p+=$char_open
+  p+=" %B%~ %b"
   p+=$reset
-  p+="$(text_bg $COLOR_TEXT $COLOR1)"
-  p+="%~ "
-  p+=$reset
-  p+="$(text $COLOR1)"
+  p+="$(text $COLOR2)"
 
   if [[ $vcs_info_msg_0_ = *[!\ ]* ]]; then
-    p+="$(bg $COLOR3)"
-    p+=$char_close_inner
-    p+=$reset
-    p+="$(text_bg $COLOR_TEXT $COLOR3) "
     p+='${vcs_info_msg_0_} '
-    p+=$reset
-    p+="$(text $COLOR3)"
-    p+=$char_close
   else
-    p+=$char_close
   fi
 
+  p+=$reset
+  p+="$(text $COLOR4)"
+  p+=$arrow
   p+=$reset
 
   echo "$p "
