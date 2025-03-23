@@ -1,4 +1,4 @@
-*.zsh
+prompt.zsh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

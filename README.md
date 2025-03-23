@@ -16,7 +16,9 @@ Ex: `sudo pacman -Syu python git sed` (Arch Linux)
 1. Clone the repository - `git clone https://github.com/regarager/shiko-prompt`
 2. Move repository into home-folder (or other preferred directory) - `mv shiko-prompt ~`
 3. Run the setup script - `python setup.py`
-4. Enjoy!
+4. Add `source ~/shiko-prompt/prompt.zsh` to your `~/.zshrc`
+5. Reload `~/.zshrc` - `source ~/.zshrc`
+6. Enjoy!
 
 ## Customization
 Customization may be done with the setup script - `python setup.py`
