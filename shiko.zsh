@@ -1,28 +1,12 @@
-def obj_get(config):
-    return lambda key, default_value="": config[key] if key in config else default_value
+COLOR1=#2bd4ff
+COLOR2=#00e600
+COLOR3=#b5fd0d
+COLOR_VCS_CHANGE=#f4d03f
 
-
-def generate(config):
-    get = obj_get(config)
-
-    COLOR1 = get("COLOR1", "#ffffff")
-    COLOR2 = get("COLOR2", "#ffffff")
-    COLOR3 = get("COLOR3", "#ffffff")
-    COLOR_VCS_CHANGE = get("COLOR_VCS_CHANGE", "#ffffff")
-    ICON_LEFT = get("ICON_LEFT", "")
-    ICON_RIGHT = get("ICON_LEFT", "")
-    ICON_ARROW = get("ICON_ARROW", ">")
-    ICON_VCS_BRANCH = get("ICON_BRANCH")
-
-    return r"""COLOR1={}
-COLOR2={}
-COLOR3={}
-COLOR_VCS_CHANGE={}
-
-ICON_LEFT="{}"
-ICON_RIGHT="{}"
-ICON_ARROW="{}"
-ICON_VCS_BRANCH="{}"
+ICON_LEFT=""
+ICON_RIGHT=""
+ICON_ARROW="➔"
+ICON_VCS_BRANCH=""
 
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
@@ -30,20 +14,20 @@ autoload -Uz add-zsh-hook
 zstyle ":vcs_info:*" enable git svn
 zstyle ":vcs_info:*" check-for-changes true
 
-git_info() {{
+git_info() {
   local ref
   ref=$(git symbolic-ref HEAD 2> /dev/null) || \
   ref=$(git rev-parse --short HEAD 2> /dev/null) || return 0
 
-  local branch="${{ref#refs/heads/}}"
+  local branch="${ref#refs/heads/}"
 
-  local changes=$(git status --porcelain | awk '{{print substr($0, 1, 2)}}' | sort | uniq -c | sed -e 's/^[[:space:]]*//')
+  local changes=$(git status --porcelain | awk '{print substr($0, 1, 2)}' | sort | uniq -c | sed -e 's/^[[:space:]]*//')
 
   local change_status=""
 
   while IFS= read -r line; do
-    count=$(echo $line | awk '{{print $1}}')
-    code=${{line: -2}}
+    count=$(echo $line | awk '{print $1}')
+    code=${line: -2}
 
     case "$code" in
       "??") untracked=$((untracked + count)) ;;
@@ -72,23 +56,23 @@ git_info() {{
   fi
 
   echo $res
-}}
+}
 
-text_bg() {{
-  echo "%{{%F{{$1}}%K{{$2}}%}}"
-}}
+text_bg() {
+  echo "%{%F{$1}%K{$2}%}"
+}
 
-text() {{
-  echo "%F{{$1}}"
-}}
+text() {
+  echo "%F{$1}"
+}
 
-bg() {{
-  echo "%K{{$1}}"
-}}
+bg() {
+  echo "%K{$1}"
+}
 
 local reset="%f%k"
 
-build_prompt() {{
+build_prompt() {
   local p=""
 
   p+=$(text $COLOR1)
@@ -104,7 +88,7 @@ build_prompt() {{
   p+=$reset
 
   PROMPT="$p "
-}}
+}
 
 setopt prompt_subst
 
@@ -112,13 +96,3 @@ add-zsh-hook precmd build_prompt
 add-zsh-hook chpwd build_prompt
 
 build_prompt
-""".format(
-        COLOR1,
-        COLOR2,
-        COLOR3,
-        COLOR_VCS_CHANGE,
-        ICON_LEFT,
-        ICON_RIGHT,
-        ICON_ARROW,
-        ICON_VCS_BRANCH,
-    )
