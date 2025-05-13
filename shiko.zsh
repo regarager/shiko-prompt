@@ -29,8 +29,8 @@ git_info() {
 
   ahead=0
   behind=0
-  [[ $remote_changes =~ ahead\ ([0-9]+) ]]; ahead=${match[1]}
-  [[ $remote_changes =~ behind\ ([0-9]+) ]]; behind=${match[1]}
+  if [[ $remote_changes =~ 'ahead ([0-9]+)' ]]; then ahead=${match[1]} fi
+  if [[ $remote_changes =~ 'behind ([0-9]+)' ]]; then behind=${match[1]} fi
 
   local changes=$(echo $git_status | tail -n +2 | awk '{print substr($0, 1, 2)}' | sort | uniq -c | sed -e 's/^[[:space:]]*//')
 
