@@ -12,7 +12,9 @@ def generate(config):
     ICON_LEFT = get("ICON_LEFT", "")
     ICON_RIGHT = get("ICON_LEFT", "")
     ICON_ARROW = get("ICON_ARROW", ">")
-    ICON_VCS_BRANCH = get("ICON_BRANCH")
+    ICON_VCS_BRANCH = get("ICON_VCS_BRANCH", "")
+    ICON_VCS_AHEAD = get("ICON_VCS_AHEAD", "")
+    ICON_VCS_BEHIND = get("ICON_VCS_BEHIND", "")
 
     return r"""COLOR1={}
 COLOR2={}
@@ -23,6 +25,8 @@ ICON_LEFT="{}"
 ICON_RIGHT="{}"
 ICON_ARROW="{}"
 ICON_VCS_BRANCH="{}"
+ICON_VCS_AHEAD="{}"
+ICON_VCS_BEHIND="{}"
 
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
@@ -37,7 +41,16 @@ git_info() {{
 
   local branch="${{ref#refs/heads/}}"
 
-  local changes=$(git status --porcelain | awk '{{print substr($0, 1, 2)}}' | sort | uniq -c | sed -e 's/^[[:space:]]*//')
+  local git_status=$(git status -sb)
+
+  local remote_changes=$(echo $git_status | head -n 1)
+
+  ahead=0
+  behind=0
+  [[ $remote_changes =~ ahead\ ([0-9]+) ]]; ahead=${{match[1]}}
+  [[ $remote_changes =~ behind\ ([0-9]+) ]]; behind=${{match[1]}}
+
+  local changes=$(echo $git_status | tail -n +2 | awk '{{print substr($0, 1, 2)}}' | sort | uniq -c | sed -e 's/^[[:space:]]*//')
 
   local change_status=""
 
@@ -54,7 +67,6 @@ git_info() {{
     esac
   done <<< "$changes"
 
-  # Construct the output string
   if [[ $untracked -gt 0 ]]; then
     change_status+="$untracked? "
   fi
@@ -63,6 +75,12 @@ git_info() {{
   fi
   if [[ $modified_staged -gt 0 ]]; then
     change_status+="$modified_staged+ "
+  fi
+  if [[ $ahead -gt 0 ]]; then
+    change_status+="$ICON_VCS_AHEAD$ahead "
+  fi
+  if [[ $behind -gt 0 ]]; then
+    change_status+="$ICON_VCS_BEHIND$behind"
   fi
 
   local res="$ICON_VCS_BRANCH $branch "
@@ -121,4 +139,6 @@ build_prompt
         ICON_RIGHT,
         ICON_ARROW,
         ICON_VCS_BRANCH,
+        ICON_VCS_AHEAD,
+        ICON_VCS_BEHIND,
     )
