@@ -6,6 +6,18 @@ import (
 	"strings"
 )
 
+// highlight only the last part of the cwd
+// nothing is highlighted if the cwd is / or ~
+func highlight_last(cwd string) string {
+	index := strings.LastIndex(cwd, "/")
+
+	if index < 0 {
+		return cwd
+	}
+
+	return fmt.Sprintf("%s%s", cwd[:index], bold(cwd[index:]))
+}
+
 // TODO: add option to not truncate $HOME
 func cwd_info() string {
 	output, err := os.Getwd()
@@ -33,9 +45,16 @@ func cwd_info() string {
 
 func section_cwd() string {
 	cwd := cwd_info()
+
+	if CWD_HIGHLIGHT_LAST {
+		cwd = highlight_last(cwd)
+	} else {
+		cwd = bold(cwd)
+	}
+
 	return fmt.Sprintf(
 		"%s%s ",
 		text(COLOR1),
-		fmt.Sprintf("%%B%s%%b", cwd),
+		cwd,
 	)
 }
