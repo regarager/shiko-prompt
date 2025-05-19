@@ -13,9 +13,6 @@ var (
 	COLOR3           = "#b5fd0d"
 	COLOR_VCS_CHANGE = "#f4d03f"
 
-	// terminal characters
-	RESET = "%f%k"
-
 	// icons
 	ICON_SECTION_LEFT  = ""
 	ICON_SECTION_RIGHT = ""

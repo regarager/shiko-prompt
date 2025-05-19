@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+const RESET = "%f%k"
+
 func fg(color string) string {
 	return fmt.Sprintf("%%F{%s}", color)
 }
