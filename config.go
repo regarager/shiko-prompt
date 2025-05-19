@@ -17,8 +17,8 @@ var (
 	RESET = "%f%k"
 
 	// icons
-	ICON_LEFT          = ""
-	ICON_RIGHT         = ""
+	ICON_SECTION_LEFT  = ""
+	ICON_SECTION_RIGHT = ""
 	ICON_ARROW         = "➔"
 	ICON_VCS_BRANCH    = ""
 	ICON_VCS_AHEAD     = ""
