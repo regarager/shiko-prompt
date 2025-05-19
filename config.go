@@ -1,26 +1,29 @@
 package main
 
-// options
-const CWD_HIGHLIGHT_LAST = true
-const CWD_DARKEN = true
-const CWD_DARKEN_FACTOR = 0.25
+// needs to be var for compile args
+var (
+	// options
+	CWD_HIGHLIGHT_LAST = true
+	CWD_DARKEN         = true
+	CWD_DARKEN_FACTOR  = 0.25
 
-// colors
-const COLOR1 = "#2bd4ff"
-const COLOR2 = "#00e600"
-const COLOR3 = "#b5fd0d"
-const COLOR_VCS_CHANGE = "#f4d03f"
+	// colors
+	COLOR1           = "#2bd4ff"
+	COLOR2           = "#00e600"
+	COLOR3           = "#b5fd0d"
+	COLOR_VCS_CHANGE = "#f4d03f"
 
-// terminal characters
-const RESET = "%f%k"
+	// terminal characters
+	RESET = "%f%k"
 
-// icons
-const ICON_LEFT = ""
-const ICON_RIGHT = ""
-const ICON_ARROW = "➔"
-const ICON_VCS_BRANCH = ""
-const ICON_VCS_AHEAD = ""
-const ICON_VCS_BEHIND = ""
-const ICON_VCS_STAGED = "+"
-const ICON_VCS_UNSTAGED = "*"
-const ICON_VCS_UNTRACKED = "?"
+	// icons
+	ICON_LEFT          = ""
+	ICON_RIGHT         = ""
+	ICON_ARROW         = "➔"
+	ICON_VCS_BRANCH    = ""
+	ICON_VCS_AHEAD     = ""
+	ICON_VCS_BEHIND    = ""
+	ICON_VCS_STAGED    = "+"
+	ICON_VCS_UNSTAGED  = "*"
+	ICON_VCS_UNTRACKED = "?"
+)
