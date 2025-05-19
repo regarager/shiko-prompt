@@ -86,13 +86,13 @@ func section_git() string {
 	}
 
 	res.WriteString(RESET)
-	res.WriteString(text(COLOR2))
+	res.WriteString(fg(COLOR2))
 	res.WriteString(ICON_VCS_BRANCH)
 	res.WriteString(" ")
 	res.WriteString(info.Branch)
 	res.WriteString(" ")
 
-	res.WriteString(text(COLOR_VCS_CHANGE))
+	res.WriteString(fg(COLOR_VCS_CHANGE))
 
 	if info.Ahead > 0 {
 		res.WriteString(strconv.Itoa(info.Ahead))

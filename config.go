@@ -2,6 +2,8 @@ package main
 
 // options
 const CWD_HIGHLIGHT_LAST = true
+const CWD_DARKEN = true
+const CWD_DARKEN_FACTOR = 0.25
 
 // colors
 const COLOR1 = "#2bd4ff"

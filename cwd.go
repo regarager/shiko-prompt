@@ -6,16 +6,24 @@ import (
 	"strings"
 )
 
+func darken_prefix(prefix string) string {
+	color := darken(COLOR1, CWD_DARKEN_FACTOR)
+
+	return fmt.Sprintf("%s%s%s", fg(color), prefix, RESET)
+}
+
 // highlight only the last part of the cwd
 // nothing is highlighted if the cwd is / or ~
 func highlight_last(cwd string) string {
-	index := strings.LastIndex(cwd, "/")
+	index := max(0, strings.LastIndex(cwd, "/"))
 
-	if index < 0 {
-		return cwd
+	prefix := cwd[:index]
+
+	if CWD_DARKEN {
+		return fmt.Sprintf("%s%s%s", darken_prefix(prefix), fg(COLOR1), bold(cwd[index:]))
 	}
 
-	return fmt.Sprintf("%s%s", cwd[:index], bold(cwd[index:]))
+	return fmt.Sprintf("%s%s", prefix, bold(cwd[index:]))
 }
 
 // TODO: add option to not truncate $HOME
@@ -54,7 +62,7 @@ func section_cwd() string {
 
 	return fmt.Sprintf(
 		"%s%s ",
-		text(COLOR1),
+		fg(COLOR1),
 		cwd,
 	)
 }
