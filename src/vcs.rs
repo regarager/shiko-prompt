@@ -3,46 +3,47 @@ use crate::{
     util::{RESET, fg},
 };
 use regex::Regex;
-use std::{error::Error, process::Command};
-#[derive(Debug)]
+use std::process::Command;
+
+#[derive(Debug, Default)]
 struct GitInfo {
     pub branch: String,
-    pub ahead: i32,
-    pub behind: i32,
-    pub untracked: i32,
-    pub unstaged: i32,
-    pub staged: i32,
+    pub ahead: usize,
+    pub behind: usize,
+    pub untracked: usize,
+    pub unstaged: usize,
+    pub staged: usize,
 }
 
 fn parse_branch() -> Option<String> {
-    if let Ok(output) = Command::new("git").arg("symbolic-ref").arg("HEAD").output() {
-        if !output.stderr.is_empty() {
-            return None;
-        }
-        let branch = String::from_utf8(output.stdout).unwrap();
-        Some(
-            branch
-                .strip_prefix("refs/heads/")
-                .unwrap_or(&branch)
-                .trim()
-                .to_string(),
-        )
-    } else {
-        None
-    }
+    Command::new("git")
+        .arg("symbolic-ref")
+        .arg("--short")
+        .arg("HEAD")
+        .output()
+        .ok()
+        .and_then(|output| {
+            if output.status.success() {
+                String::from_utf8(output.stdout)
+                    .ok()
+                    .map(|s| s.trim().to_string())
+            } else {
+                None
+            }
+        })
 }
 
-fn parse_remote(line: &str) -> (i32, i32) {
+fn parse_remote(line: &str) -> (usize, usize) {
     let ahead_match = Regex::new("ahead [0-9]+").unwrap().find(line);
     let behind_match = Regex::new("behind [0-9]+").unwrap().find(line);
 
     let ahead = match ahead_match {
-        Some(x) => line[x.range()].parse::<i32>().unwrap_or(0),
+        Some(x) => line[x.range()].parse::<usize>().unwrap_or(0),
         None => 0,
     };
 
     let behind = match behind_match {
-        Some(x) => line[x.range()].parse::<i32>().unwrap_or(0),
+        Some(x) => line[x.range()].parse::<usize>().unwrap_or(0),
         None => 0,
     };
 
@@ -50,63 +51,49 @@ fn parse_remote(line: &str) -> (i32, i32) {
 }
 
 fn construct_info() -> Option<GitInfo> {
-    let output = Command::new("git").arg("status").arg("-sb").output();
+    let output = Command::new("git").arg("status").arg("-sb").output().ok()?;
 
-    if output.is_err() {
+    if !output.status.success() {
         return None;
     }
 
-    let branch = parse_branch();
+    let branch = parse_branch()?;
 
-    branch.as_ref()?;
+    let mut info = GitInfo {
+        branch,
+        ahead: 0,
+        behind: 0,
+        untracked: 0,
+        unstaged: 0,
+        staged: 0,
+    };
 
-    let git_status = output.unwrap();
-    let status = String::from_utf8(git_status.stdout).unwrap();
+    let status = String::from_utf8(output.stdout).ok()?;
 
-    let mut ahead = 0;
-    let mut behind = 0;
-    let mut untracked = 0;
-    let mut unstaged = 0;
-    let mut staged = 0;
-
-    for line in status.split("\n") {
+    for line in status.lines() {
         if line.len() < 2 {
             continue;
         }
 
         if line.starts_with("##") {
-            (ahead, behind) = parse_remote(line);
+            (info.ahead, info.behind) = parse_remote(line);
         }
 
-        let pref = &line[0..2];
-
-        if pref == "??" {
-            untracked += 1;
-        } else if pref.starts_with(' ') || pref.chars().nth(1) == Some('M') {
-            unstaged += 1;
-        } else if pref.chars().nth(1) == Some(' ') {
-            staged += 1;
+        match &line[0..2] {
+            "??" => info.untracked += 1,
+            s if s.starts_with(' ') || s.ends_with('M') => info.unstaged += 1,
+            s if s.ends_with(' ') => info.staged += 1, // not 100% sure if this is correct
+            _ => (),
         }
     }
 
-    Some(GitInfo {
-        branch: branch.unwrap(),
-        ahead,
-        behind,
-        untracked,
-        unstaged,
-        staged,
-    })
+    Some(info)
 }
 
 pub fn section_git() -> String {
-    let res = construct_info();
-
-    if res.is_none() {
-        return String::from("");
-    }
-
-    let info = res.unwrap();
+    let Some(info) = construct_info() else {
+        return String::new();
+    };
 
     let main = format!(
         "{RESET}{}{} {}{RESET}",
@@ -115,34 +102,21 @@ pub fn section_git() -> String {
         info.branch,
     );
 
-    let mut changes = String::from(" ");
+    let changes = [
+        (info.ahead, CONFIG.icon_vcs_ahead),
+        (info.behind, CONFIG.icon_vcs_behind),
+        (info.staged, CONFIG.icon_vcs_staged),
+        (info.unstaged, CONFIG.icon_vcs_unstaged),
+        (info.untracked, CONFIG.icon_vcs_untracked),
+    ]
+    .iter()
+    .filter(|(count, _)| *count > 0)
+    .map(|(count, icon)| format!("{count}{icon} "))
+    .collect::<String>();
 
-    let ahead_str = format!("{}{} ", info.ahead, CONFIG.icon_vcs_ahead);
-    let behind_str = format!("{}{} ", info.behind, CONFIG.icon_vcs_behind);
-    let staged_str = format!("{}{} ", info.staged, CONFIG.icon_vcs_staged);
-    let unstaged_str = format!("{}{} ", info.unstaged, CONFIG.icon_vcs_unstaged);
-    let untracked_str = format!("{}{} ", info.untracked, CONFIG.icon_vcs_untracked);
-
-    if info.ahead > 0 {
-        changes.push_str(&ahead_str);
+    if changes.is_empty() {
+        main
+    } else {
+        format!("{RESET}{main}{} {changes}", fg(CONFIG.color_vcs_change))
     }
-
-    if info.behind > 0 {
-        changes.push_str(&behind_str);
-    }
-
-    if info.staged > 0 {
-        changes.push_str(&staged_str);
-    }
-
-    if info.unstaged > 0 {
-        changes.push_str(&unstaged_str);
-    }
-
-    if info.untracked > 0 {
-        changes.push_str(&untracked_str);
-    }
-
-    let color = fg(CONFIG.color_vcs_change);
-    format!("{RESET}{main}{color}{changes}")
 }
