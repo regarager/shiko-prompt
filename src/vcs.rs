@@ -38,12 +38,14 @@ fn parse_remote(line: &str) -> (usize, usize) {
     let behind_match = Regex::new("behind [0-9]+").unwrap().find(line);
 
     let ahead = match ahead_match {
-        Some(x) => line[x.range()].parse::<usize>().unwrap_or(0),
+        // remove 6 characters for "behind "
+        Some(x) => line[x.range()][6..].parse::<usize>().unwrap_or(0),
         None => 0,
     };
 
     let behind = match behind_match {
-        Some(x) => line[x.range()].parse::<usize>().unwrap_or(0),
+        // remove 7 characters for "behind "
+        Some(x) => line[x.range()][7..].parse::<usize>().unwrap_or(0),
         None => 0,
     };
 
