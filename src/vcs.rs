@@ -96,7 +96,7 @@ pub fn section_git() -> String {
     };
 
     let main = format!(
-        "{RESET}{}{} {}{RESET}",
+        "{RESET}{}{} {}{RESET} ",
         fg(CONFIG.color2),
         CONFIG.icon_vcs_branch,
         info.branch,
@@ -117,6 +117,6 @@ pub fn section_git() -> String {
     if changes.is_empty() {
         main
     } else {
-        format!("{RESET}{main}{} {changes}", fg(CONFIG.color_vcs_change))
+        format!("{RESET}{main}{}{changes}", fg(CONFIG.color_vcs_change))
     }
 }
