@@ -1,0 +1,8 @@
+[package]
+name = "shiko-prompt"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+dirs = "4.0"
+regex = "1.11.1"
