@@ -1,22 +1,20 @@
-use crate::{
-    config::CONFIG,
-    cwd::section_cwd,
-    util::{RESET, fg},
-    vcs::section_git,
-};
+use std::env::args;
+
+use crate::prompt::{left, right};
 
 mod config;
 mod cwd;
+mod prompt;
 mod util;
 mod vcs;
+mod venv;
 
 fn main() {
-    println!(
-        "{}{}{}{}{} ",
-        section_cwd(),
-        section_git(),
-        fg(CONFIG.color3),
-        CONFIG.icon_arrow,
-        RESET
-    );
+    let mode = args().nth(1).unwrap_or(String::from("--left"));
+
+    match mode.as_str() {
+        "--left" => println!("{}", left()),
+        "--right" => println!("{}", right()),
+        _ => println!("error: unknown mode {}", mode),
+    }
 }
