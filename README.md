@@ -9,8 +9,8 @@
 ![With VCS](./images/with_vcs.png)
 
 ## Development Dependencies
-Install the following dependencies: go git`
-Ex: `sudo pacman -Syu go git` (Arch)
+Install the following dependencies: `rust`
+Ex: `sudo pacman -Syu rust` (Arch)
 
 ## Installation
 1. Clone the repository - `git clone https://github.com/regarager/shiko-prompt`
@@ -21,4 +21,4 @@ Ex: `sudo pacman -Syu go git` (Arch)
 
 ## Customization
 
-As of now, there is no configuration wizard, but you may change colors in `src/config.rs` and rebuilding the `shiko-prompt` binary.
+As of now, there is no configuration wizard, but you may change colors in `config.ron` and rebuilding the `shiko-prompt` binary.

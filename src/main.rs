@@ -15,6 +15,6 @@ fn main() {
     match mode.as_str() {
         "--left" => println!("{}", left()),
         "--right" => println!("{}", right()),
-        _ => println!("error: unknown mode {}", mode),
+        _ => println!("error: unknown mode {mode}"),
     }
 }

@@ -1,4 +1,7 @@
-#[derive(Debug)]
+use lazy_static::lazy_static;
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Config {
     // colors
     pub color1: &'static str,
@@ -54,4 +57,9 @@ impl Config {
     }
 }
 
-pub const CONFIG: Config = Config::new();
+lazy_static! {
+    pub static ref CONFIG: Config = {
+        let config_text = include_str!("../config.ron");
+        ron::from_str(config_text).expect("failed to parse config.ron")
+    };
+}
