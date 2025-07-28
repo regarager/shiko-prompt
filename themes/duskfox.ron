@@ -1,7 +1,7 @@
 Config(
   color1: "#ccb1ed",
   color2: "#b1d196",
-  color3: "#f083a2",
+  color3: "#f0a6cc",
   color_vcs_change: "#f9cb8c",
   color_venv: "#65b1cd",
 
