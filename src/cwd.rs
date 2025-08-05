@@ -30,7 +30,10 @@ pub fn highlight_last(cwd: &str) -> String {
 }
 
 pub fn cwd_info() -> String {
-    let cwd = env::current_dir().unwrap().to_str().unwrap().to_string();
+    let cwd = match env::current_dir() {
+        Ok(x) => x.to_str().unwrap().to_string(),
+        Err(_) => String::new(),
+    };
 
     let home = match home_dir() {
         Some(x) => x.to_str().unwrap().to_string(),
