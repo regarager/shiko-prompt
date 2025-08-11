@@ -1,6 +1,11 @@
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
-use std::{fs, path::PathBuf};
+
+mod generated {
+    include!(concat!(env!("OUT_DIR"), "/config.rs"));
+}
+
+use generated::CONFIG_TEXT;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Config {
@@ -126,14 +131,5 @@ fn default_venv_right_side() -> bool {
 }
 
 lazy_static! {
-    static ref CONFIG_TEXT: String = {
-        let config_file =
-            PathBuf::from(option_env!("SHIKO_THEME").unwrap_or("./themes/default.ron"))
-                .canonicalize()
-                .expect("config file not found");
-
-        fs::read_to_string(config_file).expect("error while reading config file")
-    };
-    pub static ref CONFIG: Config =
-        ron::from_str(&CONFIG_TEXT).expect("failed to parse config.ron");
+    pub static ref CONFIG: Config = ron::from_str(CONFIG_TEXT).expect("failed to parse config.ron");
 }
