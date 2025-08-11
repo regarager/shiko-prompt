@@ -16,7 +16,7 @@ Ex: `sudo pacman -Syu rust` (Arch)
 1. Clone the repository - `git clone https://github.com/regarager/shiko-prompt`
 2. Move repository into home-folder (or other preferred directory) - `mv shiko-prompt ~`
 3. Copy a theme from `themes/` into the project root as `config.ron` (optional)
-4. Build the prompt binary - `cargo build --release`
+4. Build the prompt binary - `cargo build --release` (alternatively, `SHIKO_THEME=./themes/<theme>.ron cargo build --release` for a different theme)
 5. Add `source ~/shiko-prompt/shiko.zsh` to your `~/.zshrc` and reload it with `source ~/.zshrc`.
 6. Enjoy!
 
