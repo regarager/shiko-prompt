@@ -4,20 +4,19 @@
 
 ### Default Theme
 
-![Normal](./images/default_vcs.png)
+![Normal](./images/default.png)
 ![With VCS](./images/default_vcs.png)
 ![Python venv](./images/default_venv.png)
 
 ### Duskfox Theme
 
-![Normal](./images/duskfox_vcs.png)
+![Normal](./images/duskfox.png)
 ![With VCS](./images/duskfox_vcs.png)
 ![Python venv](./images/duskfox_venv.png)
 
 
 ### Campfire Theme
-
-![Normal](./images/campfire_vcs.png)
+![Normal](./images/campfire.png)
 ![With VCS](./images/campfire_vcs.png)
 ![Python venv](./images/campfire_venv.png)
 
