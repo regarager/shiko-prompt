@@ -2,11 +2,24 @@
 
 ## Screenshots
 
-### Without VCS information
-![Without VCS](./images/without_vcs.png)
+### Default Theme
 
-### With VCS information
-![With VCS](./images/with_vcs.png)
+![Normal](./images/default_vcs.png)
+![With VCS](./images/default_vcs.png)
+![Python venv](./images/default_venv.png)
+
+### Duskfox Theme
+
+![Normal](./images/duskfox_vcs.png)
+![With VCS](./images/duskfox_vcs.png)
+![Python venv](./images/duskfox_venv.png)
+
+
+### Campfire Theme
+
+![Normal](./images/campfire_vcs.png)
+![With VCS](./images/campfire_vcs.png)
+![Python venv](./images/campfire_venv.png)
 
 ## Development Dependencies
 Install the following dependencies: `rust`
@@ -15,10 +28,9 @@ Ex: `sudo pacman -Syu rust` (Arch)
 ## Installation
 1. Clone the repository - `git clone https://github.com/regarager/shiko-prompt`
 2. Move repository into home-folder (or other preferred directory) - `mv shiko-prompt ~`
-3. Copy a theme from `themes/` into the project root as `config.ron` (optional)
-4. Build the prompt binary - `cargo build --release` (alternatively, `SHIKO_THEME=./themes/<theme>.ron cargo build --release` for a different theme)
-5. Add `source ~/shiko-prompt/shiko.zsh` to your `~/.zshrc` and reload it with `source ~/.zshrc`.
-6. Enjoy!
+3. Build the prompt binary - `cargo build --release` (alternatively, `SHIKO_THEME=./themes/<theme>.ron cargo build --release` for a different theme)
+4. Add `source ~/shiko-prompt/shiko.zsh` to your `~/.zshrc` and reload it with `source ~/.zshrc`.
+5. Enjoy!
 
 ## Customization
 
