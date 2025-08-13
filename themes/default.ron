@@ -1,0 +1,23 @@
+Config(
+  color1: "#2bd4ff",
+  color2: "#00e600",
+  color3: "#b5fd0d",
+  color_vcs_change: "#f4d03f",
+  color_venv: "#00c0a3",
+
+  icon_arrow: "➔",
+  icon_section_left: "",
+  icon_section_right: "",
+  icon_vcs_ahead: "",
+  icon_vcs_behind: "",
+  icon_vcs_branch: "",
+  icon_vcs_staged: "+",
+  icon_vcs_unstaged: "*",
+  icon_vcs_untracked: "?",
+  icon_venv: "",
+
+  cwd_darken_factor: 0.25,
+  cwd_darken: true,
+  cwd_highlight_last: true,
+  venv_right_side: true,
+)

@@ -2,7 +2,8 @@ autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
 
 build_prompt() {
-  PROMPT=$(~/shiko-prompt/shiko-prompt)
+  PROMPT=$(~/shiko-prompt/target/release/shiko-prompt --left)
+  RPROMPT=$(~/shiko-prompt/target/release/shiko-prompt --right)
 }
 
 setopt prompt_subst
