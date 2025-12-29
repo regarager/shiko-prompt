@@ -32,7 +32,7 @@ pub fn highlight_last(cwd: &str) -> String {
 pub fn cwd_info() -> String {
     let cwd = match env::current_dir() {
         Ok(x) => x.to_str().unwrap().to_string(),
-        Err(_) => String::new(),
+        Err(_) => String::from("(deleted)"),
     };
 
     let home = match home_dir() {
