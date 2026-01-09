@@ -9,5 +9,3 @@ Config(
   cwd_highlight_last: true,
   venv_right_side: true,
 )
-
-
