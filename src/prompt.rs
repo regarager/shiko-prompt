@@ -1,17 +1,12 @@
 use crate::{
+    arrow::section_arrow,
     config::CONFIG,
     cwd::section_cwd,
-    icons,
-    util::{RESET, fg},
-    vcs::section_vcs_changes,
     vcs::section_vcs_branch,
+    vcs::section_vcs_changes,
     venv::section_venv,
 };
 use string_builder::Builder;
-
-fn arrow() -> String {
-    format!("{}{}{}", fg(CONFIG.color3), icons::ICON_ARROW, RESET)
-}
 
 pub fn left() -> String {
     let mut vec: Vec<String> = Vec::new();
@@ -22,7 +17,7 @@ pub fn left() -> String {
     if !CONFIG.venv_right_side {
         vec.push(section_venv());
     }
-    vec.push(arrow());
+    vec.push(section_arrow());
 
     let mut builder = Builder::default();
 

@@ -1,0 +1,13 @@
+{
+  "cwd_darken": true,
+  "cwd_darken_factor": 0.25,
+  "cwd_highlight_last": true,
+  "venv_right_side": true,
+  "modules": {
+    "directory": "#ccb1ed",
+    "vcs_branch": "#b1d196",
+    "vcs_changes": "#f9cb8c",
+    "venv": "#65b1cd",
+    "arrow": "#f0a6cc"
+  }
+}

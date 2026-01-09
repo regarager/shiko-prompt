@@ -1,5 +1,6 @@
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
+use std::fmt;
 
 mod generated {
     include!(concat!(env!("OUT_DIR"), "/config.rs"));
@@ -7,20 +8,33 @@ mod generated {
 
 use generated::CONFIG_TEXT;
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Color {
+    Hex(String),
+    Terminal(u8),
+}
+
+impl fmt::Display for Color {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Color::Hex(s) => write!(f, "{}", s),
+            Color::Terminal(c) => write!(f, "{}", c),
+        }
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ModuleConfig {
+    pub directory: Color,
+    pub vcs_branch: Color,
+    pub vcs_changes: Color,
+    pub venv: Color,
+    pub arrow: Color,
+}
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Config {
-    // colors
-    #[serde(default = "default_color1")]
-    pub color1: &'static str,
-    #[serde(default = "default_color2")]
-    pub color2: &'static str,
-    #[serde(default = "default_color3")]
-    pub color3: &'static str,
-    #[serde(default = "default_color_vcs_change")]
-    pub color_vcs_change: &'static str,
-    #[serde(default = "default_color_venv")]
-    pub color_venv: &'static str,
-
     // misc
     #[serde(default = "default_cwd_darken")]
     pub cwd_darken: bool,
@@ -30,26 +44,8 @@ pub struct Config {
     pub cwd_highlight_last: bool,
     #[serde(default = "default_venv_right_side")]
     pub venv_right_side: bool,
-}
 
-fn default_color1() -> &'static str {
-    "#2bd4ff"
-}
-
-fn default_color2() -> &'static str {
-    "#00e600"
-}
-
-fn default_color3() -> &'static str {
-    "#b5fd0d"
-}
-
-fn default_color_vcs_change() -> &'static str {
-    "#f4d03f"
-}
-
-fn default_color_venv() -> &'static str {
-    "#00c0a3"
+    pub modules: ModuleConfig,
 }
 
 fn default_cwd_darken_factor() -> f64 {
@@ -69,5 +65,5 @@ fn default_venv_right_side() -> bool {
 }
 
 lazy_static! {
-    pub static ref CONFIG: Config = ron::from_str(CONFIG_TEXT).expect("failed to parse config.ron");
-}
+    pub static ref CONFIG: Config =
+        serde_json::from_str(CONFIG_TEXT).expect("failed to parse configuration"); }

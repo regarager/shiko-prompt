@@ -20,6 +20,6 @@ fn get_venv() -> Option<String> {
 pub fn section_venv() -> String {
     match get_venv() {
         None => String::new(),
-        Some(v) => format!("{}{} {v}", fg(CONFIG.color_venv), icons::ICON_VENV),
+        Some(v) => format!("{}{} {v}", fg(&CONFIG.modules.venv), icons::ICON_VENV),
     }
 }

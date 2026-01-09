@@ -76,7 +76,7 @@ pub fn section_vcs_branch() -> String {
     {
         Ok(o) => format!(
             "{}{} {}",
-            fg(CONFIG.color2),
+            fg(&CONFIG.modules.vcs_branch),
             icons::ICON_VCS_BRANCH,
             String::from_utf8(o.stdout).unwrap().trim_end()
         ),
@@ -102,5 +102,5 @@ pub fn section_vcs_changes() -> String {
     .collect::<Vec<String>>()
     .join(" ");
 
-    format!("{}{changes}", fg(CONFIG.color_vcs_change))
+    format!("{}{changes}", fg(&CONFIG.modules.vcs_changes))
 }

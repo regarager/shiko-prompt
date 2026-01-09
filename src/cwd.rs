@@ -7,7 +7,7 @@ use crate::{
 use std::env;
 
 pub fn darken_prefix(prefix: &str) -> String {
-    let color = darken(CONFIG.color1, CONFIG.cwd_darken_factor);
+    let color = darken(&CONFIG.modules.directory, CONFIG.cwd_darken_factor);
 
     format!("{}{}{}", fg(&color), prefix, RESET)
 }
@@ -21,7 +21,7 @@ pub fn highlight_last(cwd: &str) -> String {
         format!(
             "{}{}{}",
             darken_prefix(prefix),
-            fg(CONFIG.color1),
+            fg(&CONFIG.modules.directory),
             bold(&cwd[index..])
         )
     } else {
@@ -56,5 +56,5 @@ pub fn section_cwd() -> String {
         cwd = bold(&cwd);
     }
 
-    format!("{}{}", fg(CONFIG.color1), cwd)
+    format!("{}{}", fg(&CONFIG.modules.directory), cwd)
 }
