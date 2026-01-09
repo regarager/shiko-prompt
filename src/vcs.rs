@@ -4,30 +4,11 @@ use std::process::Command;
 
 #[derive(Debug, Default)]
 struct GitInfo {
-    pub branch: String,
     pub ahead: usize,
     pub behind: usize,
     pub untracked: usize,
     pub unstaged: usize,
     pub staged: usize,
-}
-
-fn parse_branch() -> Option<String> {
-    Command::new("git")
-        .arg("symbolic-ref")
-        .arg("--short")
-        .arg("HEAD")
-        .output()
-        .ok()
-        .and_then(|output| {
-            if output.status.success() {
-                String::from_utf8(output.stdout)
-                    .ok()
-                    .map(|s| s.trim().to_string())
-            } else {
-                None
-            }
-        })
 }
 
 fn parse_remote(line: &str) -> (usize, usize) {
@@ -56,10 +37,7 @@ fn construct_info() -> Option<GitInfo> {
         return None;
     }
 
-    let branch = parse_branch()?;
-
     let mut info = GitInfo {
-        branch,
         ahead: 0,
         behind: 0,
         untracked: 0,
@@ -89,12 +67,27 @@ fn construct_info() -> Option<GitInfo> {
     Some(info)
 }
 
-pub fn section_git() -> String {
+pub fn section_vcs_branch() -> String {
+    match Command::new("git")
+        .arg("symbolic-ref")
+        .arg("--short")
+        .arg("HEAD")
+        .output()
+    {
+        Ok(o) => format!(
+            "{}{} {}",
+            fg(CONFIG.color2),
+            icons::ICON_VCS_BRANCH,
+            String::from_utf8(o.stdout).unwrap().trim_end()
+        ),
+        Err(_) => String::from(""),
+    }
+}
+
+pub fn section_vcs_changes() -> String {
     let Some(info) = construct_info() else {
         return String::new();
     };
-
-    let main = format!("{}{} {}", fg(CONFIG.color2), icons::ICON_VCS_BRANCH, info.branch,);
 
     let changes = [
         (info.ahead, icons::ICON_VCS_AHEAD),
@@ -109,9 +102,5 @@ pub fn section_git() -> String {
     .collect::<Vec<String>>()
     .join(" ");
 
-    if changes.is_empty() {
-        main
-    } else {
-        format!("{main} {}{changes}", fg(CONFIG.color_vcs_change))
-    }
+    format!("{}{changes}", fg(CONFIG.color_vcs_change))
 }

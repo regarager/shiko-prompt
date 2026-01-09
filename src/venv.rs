@@ -18,10 +18,8 @@ fn get_venv() -> Option<String> {
 }
 
 pub fn section_venv() -> String {
-    let venv = get_venv();
-
-    match venv {
-        Some(v) => format!("{}{} {v}", fg(CONFIG.color_venv), icons::ICON_VENV),
+    match get_venv() {
         None => String::new(),
+        Some(v) => format!("{}{} {v}", fg(CONFIG.color_venv), icons::ICON_VENV),
     }
 }
