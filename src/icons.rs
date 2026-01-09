@@ -1,0 +1,10 @@
+pub const ICON_ARROW: &'static str = "➔";
+pub const ICON_SECTION_LEFT: &'static str = "";
+pub const ICON_SECTION_RIGHT: &'static str = "";
+pub const ICON_VCS_AHEAD: &'static str = "";
+pub const ICON_VCS_BEHIND: &'static str = "";
+pub const ICON_VCS_BRANCH: &'static str = "";
+pub const ICON_VCS_STAGED: &'static str = "+";
+pub const ICON_VCS_UNSTAGED: &'static str = "*";
+pub const ICON_VCS_UNTRACKED: &'static str = "?";
+pub const ICON_VENV: &'static str = "";

@@ -1,7 +1,4 @@
-use crate::{
-    config::CONFIG,
-    util::{RESET, fg},
-};
+use crate::{config::CONFIG, icons, util::fg};
 use regex::Regex;
 use std::process::Command;
 
@@ -97,28 +94,24 @@ pub fn section_git() -> String {
         return String::new();
     };
 
-    let main = format!(
-        "{RESET}{}{} {}{RESET} ",
-        fg(CONFIG.color2),
-        CONFIG.icon_vcs_branch,
-        info.branch,
-    );
+    let main = format!("{}{} {}", fg(CONFIG.color2), icons::ICON_VCS_BRANCH, info.branch,);
 
     let changes = [
-        (info.ahead, CONFIG.icon_vcs_ahead),
-        (info.behind, CONFIG.icon_vcs_behind),
-        (info.staged, CONFIG.icon_vcs_staged),
-        (info.unstaged, CONFIG.icon_vcs_unstaged),
-        (info.untracked, CONFIG.icon_vcs_untracked),
+        (info.ahead, icons::ICON_VCS_AHEAD),
+        (info.behind, icons::ICON_VCS_BEHIND),
+        (info.staged, icons::ICON_VCS_STAGED),
+        (info.unstaged, icons::ICON_VCS_UNSTAGED),
+        (info.untracked, icons::ICON_VCS_UNTRACKED),
     ]
     .iter()
     .filter(|(count, _)| *count > 0)
-    .map(|(count, icon)| format!("{count}{icon} "))
-    .collect::<String>();
+    .map(|(count, icon)| format!("{count}{icon}"))
+    .collect::<Vec<String>>()
+    .join(" ");
 
     if changes.is_empty() {
         main
     } else {
-        format!("{RESET}{main}{}{changes}", fg(CONFIG.color_vcs_change))
+        format!("{main} {}{changes}", fg(CONFIG.color_vcs_change))
     }
 }

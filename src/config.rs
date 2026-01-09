@@ -21,28 +21,6 @@ pub struct Config {
     #[serde(default = "default_color_venv")]
     pub color_venv: &'static str,
 
-    // icons
-    #[serde(default = "default_icon_arrow")]
-    pub icon_arrow: &'static str,
-    #[serde(default = "default_icon_section_left")]
-    pub icon_section_left: &'static str,
-    #[serde(default = "default_icon_section_right")]
-    pub icon_section_right: &'static str,
-    #[serde(default = "default_icon_vcs_ahead")]
-    pub icon_vcs_ahead: &'static str,
-    #[serde(default = "default_icon_vcs_behind")]
-    pub icon_vcs_behind: &'static str,
-    #[serde(default = "default_icon_vcs_branch")]
-    pub icon_vcs_branch: &'static str,
-    #[serde(default = "default_icon_vcs_staged")]
-    pub icon_vcs_staged: &'static str,
-    #[serde(default = "default_icon_vcs_unstaged")]
-    pub icon_vcs_unstaged: &'static str,
-    #[serde(default = "default_icon_vcs_untracked")]
-    pub icon_vcs_untracked: &'static str,
-    #[serde(default = "default_icon_venv")]
-    pub icon_venv: &'static str,
-
     // misc
     #[serde(default = "default_cwd_darken")]
     pub cwd_darken: bool,
@@ -74,46 +52,6 @@ fn default_color_venv() -> &'static str {
     "#00c0a3"
 }
 
-fn default_icon_arrow() -> &'static str {
-    "➔"
-}
-
-fn default_icon_section_left() -> &'static str {
-    ""
-}
-
-fn default_icon_section_right() -> &'static str {
-    ""
-}
-
-fn default_icon_vcs_ahead() -> &'static str {
-    ""
-}
-
-fn default_icon_vcs_behind() -> &'static str {
-    ""
-}
-
-fn default_icon_vcs_branch() -> &'static str {
-    ""
-}
-
-fn default_icon_vcs_staged() -> &'static str {
-    "+"
-}
-
-fn default_icon_vcs_unstaged() -> &'static str {
-    "*"
-}
-
-fn default_icon_vcs_untracked() -> &'static str {
-    "?"
-}
-
-fn default_icon_venv() -> &'static str {
-    ""
-}
-
 fn default_cwd_darken_factor() -> f64 {
     0.25
 }
@@ -127,7 +65,7 @@ fn default_cwd_highlight_last() -> bool {
 }
 
 fn default_venv_right_side() -> bool {
-    true
+    false
 }
 
 lazy_static! {

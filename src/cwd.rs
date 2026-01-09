@@ -56,5 +56,5 @@ pub fn section_cwd() -> String {
         cwd = bold(&cwd);
     }
 
-    format!("{}{} ", fg(CONFIG.color1), cwd)
+    format!("{}{}", fg(CONFIG.color1), cwd)
 }

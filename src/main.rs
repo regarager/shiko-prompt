@@ -4,6 +4,7 @@ use crate::prompt::{left, right};
 
 mod config;
 mod cwd;
+mod icons;
 mod prompt;
 mod util;
 mod vcs;
