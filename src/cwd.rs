@@ -47,7 +47,7 @@ pub fn cwd_info() -> String {
     }
 }
 
-pub fn section_cwd() -> String {
+pub fn section_cwd() -> Option<String> {
     let mut cwd = cwd_info();
 
     if CONFIG.cwd_highlight_last {
@@ -56,5 +56,5 @@ pub fn section_cwd() -> String {
         cwd = bold(&cwd);
     }
 
-    format!("{}{}", fg(&CONFIG.modules.directory), cwd)
+    Some(format!("{}{}", fg(&CONFIG.modules.directory), cwd))
 }

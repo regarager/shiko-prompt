@@ -1,15 +1,11 @@
 use crate::{
-    arrow::section_arrow,
-    config::CONFIG,
-    cwd::section_cwd,
-    vcs::section_vcs_branch,
-    vcs::section_vcs_changes,
-    venv::section_venv,
+    arrow::section_arrow, config::CONFIG, cwd::section_cwd, vcs::section_vcs_branch,
+    vcs::section_vcs_changes, venv::section_venv,
 };
 use string_builder::Builder;
 
 pub fn left() -> String {
-    let mut vec: Vec<String> = Vec::new();
+    let mut vec: Vec<Option<String>> = Vec::new();
 
     vec.push(section_cwd());
     vec.push(section_vcs_branch());
@@ -22,8 +18,8 @@ pub fn left() -> String {
     let mut builder = Builder::default();
 
     for item in vec.into_iter() {
-        if !item.is_empty() {
-            builder.append(item);
+        if let Some(i) = item {
+            builder.append(i);
             builder.append(" ");
         }
     }
@@ -32,8 +28,8 @@ pub fn left() -> String {
 }
 
 pub fn right() -> String {
-    if CONFIG.venv_right_side {
-        section_venv()
+    if let Some(venv) = section_venv() && CONFIG.venv_right_side {
+        venv
     } else {
         String::from("")
     }
