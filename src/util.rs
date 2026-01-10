@@ -1,13 +1,20 @@
-use crate::config::Color;
+use crate::config::{Color, ModuleConfig};
 
 pub const RESET: &str = "%f%k";
+
+pub fn module_fmt(config: &ModuleConfig) -> String {
+    format!("{}{}", fg(&config.fg), bg(&config.bg))
+}
 
 pub fn fg(color: &Color) -> String {
     format!("%F{{{}}}", color)
 }
 
-pub fn bg(color: &Color) -> String {
-    format!("%K{{{}}}", color)
+pub fn bg(color: &Option<Color>) -> String {
+    match color {
+        Some(c) => format!("%K{{{}}}", c),
+        None => String::from(""),
+    }
 }
 
 pub fn bold(text: &str) -> String {

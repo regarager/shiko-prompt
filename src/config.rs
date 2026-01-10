@@ -26,11 +26,19 @@ impl fmt::Display for Color {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ModuleConfig {
-    pub directory: Color,
-    pub vcs_branch: Color,
-    pub vcs_changes: Color,
-    pub venv: Color,
-    pub arrow: Color,
+    pub fg: Color,
+    pub bg: Option<Color>,
+    pub prefix: String,
+    pub postfix: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Modules {
+    pub directory: ModuleConfig,
+    pub vcs_branch: ModuleConfig,
+    pub vcs_changes: ModuleConfig,
+    pub venv: ModuleConfig,
+    pub arrow: ModuleConfig,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -45,7 +53,7 @@ pub struct Config {
     #[serde(default = "default_venv_right_side")]
     pub venv_right_side: bool,
 
-    pub modules: ModuleConfig,
+    pub modules: Modules,
 }
 
 fn default_cwd_darken_factor() -> f64 {
@@ -66,4 +74,5 @@ fn default_venv_right_side() -> bool {
 
 lazy_static! {
     pub static ref CONFIG: Config =
-        serde_json::from_str(CONFIG_TEXT).expect("failed to parse configuration"); }
+        serde_json::from_str(CONFIG_TEXT).expect("failed to parse configuration");
+}

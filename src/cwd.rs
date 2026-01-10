@@ -2,17 +2,19 @@ use dirs::home_dir;
 
 use crate::{
     config::CONFIG,
-    util::{RESET, bold, darken, fg},
+    util::{RESET, bold, darken, fg, module_fmt},
 };
 use std::env;
 
 pub fn darken_prefix(prefix: &str) -> String {
-    let color = darken(&CONFIG.modules.directory, CONFIG.cwd_darken_factor);
+    let config = &CONFIG.modules.directory;
+    let color = darken(&config.fg, CONFIG.cwd_darken_factor);
 
     format!("{}{}{}", fg(&color), prefix, RESET)
 }
 
 pub fn highlight_last(cwd: &str) -> String {
+    let config = &CONFIG.modules.directory;
     let index = cwd.rfind("/").unwrap_or_default();
 
     let prefix = &cwd[0..index];
@@ -21,7 +23,7 @@ pub fn highlight_last(cwd: &str) -> String {
         format!(
             "{}{}{}",
             darken_prefix(prefix),
-            fg(&CONFIG.modules.directory),
+            fg(&config.fg),
             bold(&cwd[index..])
         )
     } else {
@@ -56,5 +58,5 @@ pub fn section_cwd() -> Option<String> {
         cwd = bold(&cwd);
     }
 
-    Some(format!("{}{}", fg(&CONFIG.modules.directory), cwd))
+    Some(format!("{}{}", module_fmt(&CONFIG.modules.directory), cwd))
 }

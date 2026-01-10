@@ -1,4 +1,4 @@
-use crate::{config::CONFIG, icons, util::fg};
+use crate::{config::CONFIG, icons, util::module_fmt};
 use regex::Regex;
 use std::process::Command;
 
@@ -80,8 +80,8 @@ pub fn section_vcs_branch() -> Option<String> {
     {
         Some(format!(
             "{}{} {}",
-            fg(&CONFIG.modules.vcs_branch),
-            icons::ICON_VCS_BRANCH,
+            module_fmt(&CONFIG.modules.vcs_branch),
+            icons::VCS_BRANCH,
             String::from_utf8(o.stdout).unwrap().trim_end()
         ))
     } else {
@@ -95,11 +95,11 @@ pub fn section_vcs_changes() -> Option<String> {
     };
 
     let changes = [
-        (info.ahead, icons::ICON_VCS_AHEAD),
-        (info.behind, icons::ICON_VCS_BEHIND),
-        (info.staged, icons::ICON_VCS_STAGED),
-        (info.unstaged, icons::ICON_VCS_UNSTAGED),
-        (info.untracked, icons::ICON_VCS_UNTRACKED),
+        (info.ahead, icons::VCS_AHEAD),
+        (info.behind, icons::VCS_BEHIND),
+        (info.staged, icons::VCS_STAGED),
+        (info.unstaged, icons::VCS_UNSTAGED),
+        (info.untracked, icons::VCS_UNTRACKED),
     ]
     .iter()
     .filter(|(count, _)| *count > 0)
@@ -110,6 +110,9 @@ pub fn section_vcs_changes() -> Option<String> {
     if changes.is_empty() {
         None
     } else {
-        Some(format!("{}{changes}", fg(&CONFIG.modules.vcs_changes)))
+        Some(format!(
+            "{}{changes}",
+            module_fmt(&CONFIG.modules.vcs_changes)
+        ))
     }
 }
