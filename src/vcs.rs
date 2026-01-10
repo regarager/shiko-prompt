@@ -68,20 +68,24 @@ fn construct_info() -> Option<GitInfo> {
 }
 
 pub fn section_vcs_branch() -> Option<String> {
-    match Command::new("git")
+    let output = Command::new("git")
         .arg("symbolic-ref")
         .arg("--short")
         .arg("HEAD")
         .output()
-        .ok()
+        .ok();
+
+    if let Some(o) = output
+        && !o.stdout.is_empty()
     {
-        Some(o) => Some(format!(
+        Some(format!(
             "{}{} {}",
             fg(&CONFIG.modules.vcs_branch),
             icons::ICON_VCS_BRANCH,
             String::from_utf8(o.stdout).unwrap().trim_end()
-        )),
-        None => None,
+        ))
+    } else {
+        None
     }
 }
 
@@ -103,5 +107,9 @@ pub fn section_vcs_changes() -> Option<String> {
     .collect::<Vec<String>>()
     .join(" ");
 
-    Some(format!("{}{changes}", fg(&CONFIG.modules.vcs_changes)))
+    if changes.is_empty() {
+        None
+    } else {
+        Some(format!("{}{changes}", fg(&CONFIG.modules.vcs_changes)))
+    }
 }

@@ -16,6 +16,6 @@ fn main() {
     match mode.as_str() {
         "--left" => println!("{}", left()),
         "--right" => println!("{}", right()),
-        _ => println!("{}", left()),
+        m => println!("unknown option {m}"),
     }
 }

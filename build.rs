@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 fn main() {
     let config_file =
-        PathBuf::from(env::var("SHIKO_THEME").unwrap_or("./themes/default.ron".to_string()));
+        PathBuf::from(env::var("SHIKO_THEME").unwrap_or("./themes/default.json".to_string()));
 
     let canonical_path = config_file.canonicalize().expect("config file not found");
 

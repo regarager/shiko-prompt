@@ -1,3 +1,4 @@
+// pub const ICON_ARROW: &'static str = "x";
 pub const ICON_ARROW: &'static str = "➔";
 pub const ICON_SECTION_LEFT: &'static str = "";
 pub const ICON_SECTION_RIGHT: &'static str = "";
