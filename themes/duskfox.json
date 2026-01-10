@@ -4,10 +4,30 @@
   "cwd_highlight_last": true,
   "venv_right_side": true,
   "modules": {
-    "directory": "#ccb1ed",
-    "vcs_branch": "#b1d196",
-    "vcs_changes": "#f9cb8c",
-    "venv": "#65b1cd",
-    "arrow": "#f0a6cc"
+    "directory": {
+      "fg": "#ccb1ed",
+      "prefix": "",
+      "postfix": " "
+    },
+    "vcs_branch": {
+      "fg": "#b1d196",
+      "prefix": "",
+      "postfix": " "
+    },
+    "vcs_changes": {
+      "fg": "#f9cb8c",
+      "prefix": "",
+      "postfix": " "
+    },
+    "venv": {
+      "fg": "#65b1cd",
+      "prefix": "",
+      "postfix": " "
+    },
+    "arrow": {
+      "fg": "#f0a6cc",
+      "prefix": "",
+      "postfix": " "
+    }
   }
 }
