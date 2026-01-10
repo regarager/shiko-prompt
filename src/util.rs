@@ -13,7 +13,7 @@ pub fn fg(color: &Color) -> String {
 pub fn bg(color: &Option<Color>) -> String {
     match color {
         Some(c) => format!("%K{{{}}}", c),
-        None => String::from(""),
+        None => String::new(),
     }
 }
 

@@ -31,6 +31,6 @@ pub fn right() -> String {
     {
         venv
     } else {
-        String::from("")
+        String::new()
     }
 }

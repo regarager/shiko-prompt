@@ -5,29 +5,19 @@
   "venv_right_side": true,
   "modules": {
     "directory": {
-      "fg": "#7e9cd8",
-      "prefix": "",
-      "postfix": " "
+      "fg": "#7e9cd8"
     },
     "vcs_branch": {
-      "fg": "#98bb6c",
-      "prefix": "",
-      "postfix": " "
+      "fg": "#98bb6c"
     },
     "vcs_changes": {
-      "fg": "#dca561",
-      "prefix": "",
-      "postfix": " "
+      "fg": "#dca561"
     },
     "venv": {
-      "fg": "#2d4f67",
-      "prefix": "",
-      "postfix": " "
+      "fg": "#2d4f67"
     },
     "arrow": {
-      "fg": "#c8c093",
-      "prefix": "",
-      "postfix": " "
+      "fg": "#c8c093"
     }
   }
 }

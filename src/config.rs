@@ -28,8 +28,14 @@ impl fmt::Display for Color {
 pub struct ModuleConfig {
     pub fg: Color,
     pub bg: Option<Color>,
+    #[serde(default)]
     pub prefix: String,
+    #[serde(default = "postfix_default")]
     pub postfix: String,
+}
+
+fn postfix_default() -> String {
+    String::new()
 }
 
 #[derive(Debug, Serialize, Deserialize)]
