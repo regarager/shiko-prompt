@@ -2,7 +2,7 @@ use dirs::home_dir;
 
 use crate::{
     config::CONFIG,
-    util::{RESET, bold, darken, fg, module_fmt},
+    util::{RESET, bold, darken, fg, bg, module_fmt},
 };
 use std::env;
 
@@ -10,7 +10,7 @@ pub fn darken_prefix(prefix: &str) -> String {
     let config = &CONFIG.modules.directory;
     let color = darken(&config.fg, CONFIG.cwd_darken_factor);
 
-    format!("{}{}{}", fg(&color), prefix, RESET)
+    format!("{}{}", fg(&color), prefix)
 }
 
 pub fn highlight_last(cwd: &str) -> String {
@@ -50,6 +50,8 @@ pub fn cwd_info() -> String {
 }
 
 pub fn section_cwd() -> Option<String> {
+    let config = &CONFIG.modules.directory;
+    // NOTE: in the future, add option to specify the color of the darkened part?
     let mut cwd = cwd_info();
 
     if CONFIG.cwd_highlight_last {
@@ -58,5 +60,5 @@ pub fn section_cwd() -> Option<String> {
         cwd = bold(&cwd);
     }
 
-    Some(format!("{}{}", module_fmt(&CONFIG.modules.directory), cwd))
+    Some(format!("{}{}", bg(&config.bg), cwd))
 }
