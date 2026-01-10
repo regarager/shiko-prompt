@@ -18,12 +18,5 @@ fn get_venv() -> Option<String> {
 }
 
 pub fn section_venv() -> Option<String> {
-    match get_venv() {
-        Some(v) => Some(format!(
-            "{}{} {v}",
-            module_fmt(&CONFIG.modules.venv),
-            icons::VENV
-        )),
-        None => None,
-    }
+    get_venv().map(|v| format!("{}{} {v}", module_fmt(&CONFIG.modules.venv), icons::VENV))
 }

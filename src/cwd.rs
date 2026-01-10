@@ -2,7 +2,7 @@ use dirs::home_dir;
 
 use crate::{
     config::CONFIG,
-    util::{RESET, bold, darken, fg, bg, module_fmt},
+    util::{bg, bold, darken, fg},
 };
 use std::env;
 

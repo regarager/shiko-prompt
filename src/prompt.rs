@@ -17,18 +17,18 @@ pub fn left() -> String {
 
     let mut builder = Builder::default();
 
-    for item in vec.into_iter() {
-        if let Some(i) = item {
-            builder.append(i);
-            builder.append(" ");
-        }
+    for item in vec.into_iter().flatten() {
+        builder.append(item);
+        builder.append(" ");
     }
 
     builder.string().unwrap()
 }
 
 pub fn right() -> String {
-    if let Some(venv) = section_venv() && CONFIG.venv_right_side {
+    if let Some(venv) = section_venv()
+        && CONFIG.venv_right_side
+    {
         venv
     } else {
         String::from("")

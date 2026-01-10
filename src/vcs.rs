@@ -90,10 +90,7 @@ pub fn section_vcs_branch() -> Option<String> {
 }
 
 pub fn section_vcs_changes() -> Option<String> {
-    let Some(info) = construct_info() else {
-        return None;
-    };
-
+    let info = construct_info()?;
     let changes = [
         (info.ahead, icons::VCS_AHEAD),
         (info.behind, icons::VCS_BEHIND),
