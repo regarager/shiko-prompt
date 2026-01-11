@@ -1,6 +1,8 @@
 use crate::config::{Color, ModuleConfig};
 
 pub const RESET: &str = "%f%k";
+pub const BACKGROUND_LEFT: &str = "\u{e0b6}"; // 
+pub const BACKGROUND_RIGHT: &str = "\u{e0b4}"; // 
 
 pub fn module_fmt(config: &ModuleConfig) -> String {
     format!("{}{}", fg(&config.fg), bg(&config.bg))
@@ -8,6 +10,13 @@ pub fn module_fmt(config: &ModuleConfig) -> String {
 
 pub fn fg(color: &Color) -> String {
     format!("%F{{{}}}", color)
+}
+
+pub fn fg_opt(color: &Option<Color>) -> String {
+    match color {
+        Some(c) => format!("%F{{{}}}", c),
+        None => String::new(),
+    }
 }
 
 pub fn bg(color: &Option<Color>) -> String {

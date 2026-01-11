@@ -50,7 +50,6 @@ pub fn cwd_info() -> String {
 }
 
 pub fn section_cwd() -> Option<String> {
-    let config = &CONFIG.modules.directory;
     // NOTE: in the future, add option to specify the color of the darkened part?
     let mut cwd = cwd_info();
 
@@ -60,5 +59,5 @@ pub fn section_cwd() -> Option<String> {
         cwd = bold(&cwd);
     }
 
-    Some(format!("{}{}", bg(&config.bg), cwd))
+    Some(cwd)
 }

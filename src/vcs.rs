@@ -79,8 +79,7 @@ pub fn section_vcs_branch() -> Option<String> {
         && !o.stdout.is_empty()
     {
         Some(format!(
-            "{}{} {}",
-            module_fmt(&CONFIG.modules.vcs_branch),
+            "{} {}",
             icons::VCS_BRANCH,
             String::from_utf8(o.stdout).unwrap().trim_end()
         ))
@@ -107,9 +106,6 @@ pub fn section_vcs_changes() -> Option<String> {
     if changes.is_empty() {
         None
     } else {
-        Some(format!(
-            "{}{changes}",
-            module_fmt(&CONFIG.modules.vcs_changes)
-        ))
+        Some(changes)
     }
 }
