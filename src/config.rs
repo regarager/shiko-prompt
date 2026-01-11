@@ -56,6 +56,8 @@ pub struct Modules {
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Config {
     // misc
+    #[serde(default = "default_background_icon")]
+    pub background_icons: (String, String),
     #[serde(default = "default_cwd_darken")]
     pub cwd_darken: bool,
     #[serde(default = "default_cwd_darken_factor")]
@@ -66,6 +68,11 @@ pub struct Config {
     pub venv_right_side: bool,
 
     pub modules: Modules,
+}
+
+fn default_background_icon() -> (String, String) {
+    // , 
+    (String::from("\u{e0b6}"), String::from("\u{e0b4}"))
 }
 
 fn default_cwd_darken_factor() -> f64 {

@@ -1,6 +1,7 @@
-use crate::{config::CONFIG, icons, util::module_fmt};
 use regex::Regex;
 use std::process::Command;
+
+use crate::icons;
 
 #[derive(Debug, Default)]
 struct GitInfo {

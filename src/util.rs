@@ -1,8 +1,6 @@
 use crate::config::{Color, ModuleConfig};
 
 pub const RESET: &str = "%f%k";
-pub const BACKGROUND_LEFT: &str = "\u{e0b6}"; // 
-pub const BACKGROUND_RIGHT: &str = "\u{e0b4}"; // 
 
 pub fn module_fmt(config: &ModuleConfig) -> String {
     format!("{}{}", fg(&config.fg), bg(&config.bg))

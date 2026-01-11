@@ -1,9 +1,11 @@
-use crate::{
-    arrow::section_arrow, config::CONFIG, config::ModuleConfig, cwd::section_cwd,
-    util::BACKGROUND_LEFT, util::BACKGROUND_RIGHT, util::RESET, util::bg, util::fg, util::fg_opt,
-    vcs::section_vcs_branch, vcs::section_vcs_changes, venv::section_venv,
-};
 use string_builder::Builder;
+
+use crate::arrow::section_arrow;
+use crate::config::{CONFIG, ModuleConfig};
+use crate::cwd::section_cwd;
+use crate::util::{RESET, bg, fg, fg_opt};
+use crate::vcs::{section_vcs_branch, section_vcs_changes};
+use crate::venv::section_venv;
 
 pub fn left() -> String {
     let mut vec: Vec<Option<String>> = Vec::new();
@@ -36,7 +38,7 @@ pub fn left() -> String {
 
     let zip = vec
         .into_iter()
-        .zip(modules.into_iter())
+        .zip(modules)
         .filter_map(|(x, y)| {
             if let (Some(a), Some(b)) = (x, y)
                 && b.enabled
@@ -59,7 +61,7 @@ pub fn left() -> String {
 
     builder.append(fg_opt(&zip[0].1.bg));
     if zip[0].1.bg.is_some() {
-        builder.append(BACKGROUND_LEFT);
+        builder.append(CONFIG.background_icons.0.clone());
     }
     builder.append(fg(&zip[0].1.fg));
     builder.append(bg(&zip[0].1.bg));
@@ -72,8 +74,8 @@ pub fn left() -> String {
         builder.append(bg(&zip[i].1.bg));
 
         if let Some(prev_bg) = &zip[i - 1].1.bg {
-            builder.append(fg(&prev_bg));
-            builder.append(BACKGROUND_RIGHT);
+            builder.append(fg(prev_bg));
+            builder.append(CONFIG.background_icons.1.clone());
         }
 
         builder.append(fg(&zip[i].1.fg));
@@ -85,7 +87,7 @@ pub fn left() -> String {
     if let Some(bg) = &zip[zip.len() - 1].1.bg {
         builder.append(RESET);
         builder.append(fg(bg));
-        builder.append(BACKGROUND_RIGHT);
+        builder.append(CONFIG.background_icons.1.clone());
         builder.append(" ");
     }
 
