@@ -30,11 +30,11 @@ pub struct ModuleConfig {
     pub bg: Option<Color>,
     #[serde(default)]
     pub prefix: String,
-    #[serde(default = "postfix_default")]
-    pub postfix: String,
+    #[serde(default = "suffix_default")]
+    pub suffix: String,
 }
 
-fn postfix_default() -> String {
+fn suffix_default() -> String {
     String::new()
 }
 
