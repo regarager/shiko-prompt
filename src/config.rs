@@ -32,6 +32,12 @@ pub struct ModuleConfig {
     pub prefix: String,
     #[serde(default = "suffix_default")]
     pub suffix: String,
+    #[serde(default = "enabled")]
+    pub enabled: bool,
+}
+
+fn enabled() -> bool {
+    true
 }
 
 fn suffix_default() -> String {

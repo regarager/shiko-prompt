@@ -20,17 +20,16 @@
       "fg": "#f4d03f",
       "bg": "#808080",
       "prefix": "",
-      "suffix": " "
+      "suffix": ""
     },
     "venv": {
       "fg": "#00c0a3",
       "prefix": "",
-      "suffix": " "
+      "suffix": ""
     },
     "arrow": {
       "fg": "#b5fd0d",
-      "prefix": "",
-      "suffix": " "
+      "enabled": false
     }
   }
 }

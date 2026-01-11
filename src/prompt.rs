@@ -38,7 +38,9 @@ pub fn left() -> String {
         .into_iter()
         .zip(modules.into_iter())
         .filter_map(|(x, y)| {
-            if let (Some(a), Some(b)) = (x, y) {
+            if let (Some(a), Some(b)) = (x, y)
+                && b.enabled
+            {
                 Some((a, b))
             } else {
                 None
@@ -78,6 +80,13 @@ pub fn left() -> String {
         builder.append(zip[i].1.prefix.clone());
         builder.append(zip[i].0.clone());
         builder.append(zip[i].1.suffix.clone());
+    }
+
+    if let Some(bg) = &zip[zip.len() - 1].1.bg {
+        builder.append(RESET);
+        builder.append(fg(bg));
+        builder.append(BACKGROUND_RIGHT);
+        builder.append(" ");
     }
 
     builder.append(RESET);
