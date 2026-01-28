@@ -2,7 +2,7 @@ use dirs::home_dir;
 use std::env;
 
 use crate::config::CONFIG;
-use crate::util::{bold, darken, fg};
+use crate::utils::text::{bold, darken, fg};
 
 pub fn darken_prefix(prefix: &str) -> String {
     let config = &CONFIG.modules.directory;

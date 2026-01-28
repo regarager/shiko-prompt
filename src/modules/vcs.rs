@@ -1,7 +1,7 @@
 use regex::Regex;
 use std::process::Command;
 
-use crate::icons;
+use crate::utils::icons;
 
 #[derive(Debug, Default)]
 struct GitInfo {

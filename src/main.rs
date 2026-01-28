@@ -1,14 +1,10 @@
 use crate::prompt::{left, right};
 use std::env::args;
 
-mod arrow;
 mod config;
-mod cwd;
-mod icons;
+mod modules;
 mod prompt;
-mod util;
-mod vcs;
-mod venv;
+mod utils;
 
 fn main() {
     let mode = args().nth(1).unwrap_or(String::from("--left"));

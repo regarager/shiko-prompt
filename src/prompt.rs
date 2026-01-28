@@ -1,11 +1,11 @@
 use string_builder::Builder;
 
-use crate::arrow::section_arrow;
 use crate::config::{CONFIG, ModuleConfig};
-use crate::cwd::section_cwd;
-use crate::util::{RESET, bg, fg, fg_opt};
-use crate::vcs::{section_vcs_branch, section_vcs_changes};
-use crate::venv::section_venv;
+use crate::modules::arrow::section_arrow;
+use crate::modules::cwd::section_cwd;
+use crate::modules::vcs::{section_vcs_branch, section_vcs_changes};
+use crate::modules::venv::section_venv;
+use crate::utils::text::{RESET, bg, fg, fg_opt};
 
 pub fn left() -> String {
     let mut vec: Vec<Option<String>> = Vec::new();
