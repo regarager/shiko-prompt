@@ -1,18 +1,18 @@
 use dirs::home_dir;
-
-use crate::{
-    config::CONFIG,
-    util::{RESET, bold, darken, fg},
-};
 use std::env;
 
-pub fn darken_prefix(prefix: &str) -> String {
-    let color = darken(CONFIG.color1, CONFIG.cwd_darken_factor);
+use crate::config::CONFIG;
+use crate::util::{bold, darken, fg};
 
-    format!("{}{}{}", fg(&color), prefix, RESET)
+pub fn darken_prefix(prefix: &str) -> String {
+    let config = &CONFIG.modules.directory;
+    let color = darken(&config.fg, CONFIG.cwd_darken_factor);
+
+    format!("{}{}", fg(&color), prefix)
 }
 
 pub fn highlight_last(cwd: &str) -> String {
+    let config = &CONFIG.modules.directory;
     let index = cwd.rfind("/").unwrap_or_default();
 
     let prefix = &cwd[0..index];
@@ -21,7 +21,7 @@ pub fn highlight_last(cwd: &str) -> String {
         format!(
             "{}{}{}",
             darken_prefix(prefix),
-            fg(CONFIG.color1),
+            fg(&config.fg),
             bold(&cwd[index..])
         )
     } else {
@@ -47,7 +47,8 @@ pub fn cwd_info() -> String {
     }
 }
 
-pub fn section_cwd() -> String {
+pub fn section_cwd() -> Option<String> {
+    // NOTE: in the future, add option to specify the color of the darkened part?
     let mut cwd = cwd_info();
 
     if CONFIG.cwd_highlight_last {
@@ -56,5 +57,5 @@ pub fn section_cwd() -> String {
         cwd = bold(&cwd);
     }
 
-    format!("{}{} ", fg(CONFIG.color1), cwd)
+    Some(cwd)
 }

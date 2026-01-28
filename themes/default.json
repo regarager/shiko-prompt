@@ -1,0 +1,33 @@
+{
+  "cwd_darken": true,
+  "cwd_darken_factor": 0.25,
+  "cwd_highlight_last": true,
+  "venv_right_side": true,
+  "modules": {
+    "directory": {
+      "fg": "#2bd4ff",
+      "prefix": "",
+      "postfix": " "
+    },
+    "vcs_branch": {
+      "fg": "#00e600",
+      "prefix": "",
+      "postfix": " "
+    },
+    "vcs_changes": {
+      "fg": "#f4d03f",
+      "prefix": "",
+      "postfix": " "
+    },
+    "venv": {
+      "fg": "#00c0a3",
+      "prefix": "",
+      "postfix": " "
+    },
+    "arrow": {
+      "fg": "#b5fd0d",
+      "prefix": "",
+      "postfix": " "
+    }
+  }
+}

@@ -1,36 +1,15 @@
-use crate::{
-    config::CONFIG,
-    util::{RESET, fg},
-};
 use regex::Regex;
 use std::process::Command;
 
+use crate::icons;
+
 #[derive(Debug, Default)]
 struct GitInfo {
-    pub branch: String,
     pub ahead: usize,
     pub behind: usize,
     pub untracked: usize,
     pub unstaged: usize,
     pub staged: usize,
-}
-
-fn parse_branch() -> Option<String> {
-    Command::new("git")
-        .arg("symbolic-ref")
-        .arg("--short")
-        .arg("HEAD")
-        .output()
-        .ok()
-        .and_then(|output| {
-            if output.status.success() {
-                String::from_utf8(output.stdout)
-                    .ok()
-                    .map(|s| s.trim().to_string())
-            } else {
-                None
-            }
-        })
 }
 
 fn parse_remote(line: &str) -> (usize, usize) {
@@ -59,10 +38,7 @@ fn construct_info() -> Option<GitInfo> {
         return None;
     }
 
-    let branch = parse_branch()?;
-
     let mut info = GitInfo {
-        branch,
         ahead: 0,
         behind: 0,
         untracked: 0,
@@ -92,33 +68,45 @@ fn construct_info() -> Option<GitInfo> {
     Some(info)
 }
 
-pub fn section_git() -> String {
-    let Some(info) = construct_info() else {
-        return String::new();
-    };
+pub fn section_vcs_branch() -> Option<String> {
+    let output = Command::new("git")
+        .arg("symbolic-ref")
+        .arg("--short")
+        .arg("HEAD")
+        .output()
+        .ok();
 
-    let main = format!(
-        "{RESET}{}{} {}{RESET} ",
-        fg(CONFIG.color2),
-        CONFIG.icon_vcs_branch,
-        info.branch,
-    );
+    if let Some(o) = output
+        && !o.stdout.is_empty()
+    {
+        Some(format!(
+            "{} {}",
+            icons::VCS_BRANCH,
+            String::from_utf8(o.stdout).unwrap().trim_end()
+        ))
+    } else {
+        None
+    }
+}
 
+pub fn section_vcs_changes() -> Option<String> {
+    let info = construct_info()?;
     let changes = [
-        (info.ahead, CONFIG.icon_vcs_ahead),
-        (info.behind, CONFIG.icon_vcs_behind),
-        (info.staged, CONFIG.icon_vcs_staged),
-        (info.unstaged, CONFIG.icon_vcs_unstaged),
-        (info.untracked, CONFIG.icon_vcs_untracked),
+        (info.ahead, icons::VCS_AHEAD),
+        (info.behind, icons::VCS_BEHIND),
+        (info.staged, icons::VCS_STAGED),
+        (info.unstaged, icons::VCS_UNSTAGED),
+        (info.untracked, icons::VCS_UNTRACKED),
     ]
     .iter()
     .filter(|(count, _)| *count > 0)
-    .map(|(count, icon)| format!("{count}{icon} "))
-    .collect::<String>();
+    .map(|(count, icon)| format!("{count}{icon}"))
+    .collect::<Vec<String>>()
+    .join(" ");
 
     if changes.is_empty() {
-        main
+        None
     } else {
-        format!("{RESET}{main}{}{changes}", fg(CONFIG.color_vcs_change))
+        Some(changes)
     }
 }

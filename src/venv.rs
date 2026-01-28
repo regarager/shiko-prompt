@@ -1,7 +1,8 @@
 use std::env;
 
 use crate::config::CONFIG;
-use crate::util::fg;
+use crate::icons;
+use crate::util::module_fmt;
 
 fn get_venv() -> Option<String> {
     let venv = env::var("VIRTUAL_ENV_PROMPT").ok();
@@ -16,11 +17,6 @@ fn get_venv() -> Option<String> {
     }
 }
 
-pub fn section_venv() -> String {
-    let venv = get_venv();
-
-    match venv {
-        Some(v) => format!("{}{} {v}", fg(CONFIG.color_venv), CONFIG.icon_venv),
-        None => String::new(),
-    }
+pub fn section_venv() -> Option<String> {
+    get_venv().map(|v| format!("{}{} {v}", module_fmt(&CONFIG.modules.venv), icons::VENV))
 }

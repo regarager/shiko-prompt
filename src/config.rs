@@ -1,5 +1,6 @@
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
+use std::fmt;
 
 mod generated {
     include!(concat!(env!("OUT_DIR"), "/config.rs"));
@@ -7,43 +8,56 @@ mod generated {
 
 use generated::CONFIG_TEXT;
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Color {
+    Hex(String),
+    Terminal(u8),
+}
+
+impl fmt::Display for Color {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Color::Hex(s) => write!(f, "{}", s),
+            Color::Terminal(c) => write!(f, "{}", c),
+        }
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ModuleConfig {
+    pub fg: Color,
+    pub bg: Option<Color>,
+    #[serde(default)]
+    pub prefix: String,
+    #[serde(default = "suffix_default")]
+    pub suffix: String,
+    #[serde(default = "enabled")]
+    pub enabled: bool,
+}
+
+fn enabled() -> bool {
+    true
+}
+
+fn suffix_default() -> String {
+    String::new()
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Modules {
+    pub directory: ModuleConfig,
+    pub vcs_branch: ModuleConfig,
+    pub vcs_changes: ModuleConfig,
+    pub venv: ModuleConfig,
+    pub arrow: ModuleConfig,
+}
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Config {
-    // colors
-    #[serde(default = "default_color1")]
-    pub color1: &'static str,
-    #[serde(default = "default_color2")]
-    pub color2: &'static str,
-    #[serde(default = "default_color3")]
-    pub color3: &'static str,
-    #[serde(default = "default_color_vcs_change")]
-    pub color_vcs_change: &'static str,
-    #[serde(default = "default_color_venv")]
-    pub color_venv: &'static str,
-
-    // icons
-    #[serde(default = "default_icon_arrow")]
-    pub icon_arrow: &'static str,
-    #[serde(default = "default_icon_section_left")]
-    pub icon_section_left: &'static str,
-    #[serde(default = "default_icon_section_right")]
-    pub icon_section_right: &'static str,
-    #[serde(default = "default_icon_vcs_ahead")]
-    pub icon_vcs_ahead: &'static str,
-    #[serde(default = "default_icon_vcs_behind")]
-    pub icon_vcs_behind: &'static str,
-    #[serde(default = "default_icon_vcs_branch")]
-    pub icon_vcs_branch: &'static str,
-    #[serde(default = "default_icon_vcs_staged")]
-    pub icon_vcs_staged: &'static str,
-    #[serde(default = "default_icon_vcs_unstaged")]
-    pub icon_vcs_unstaged: &'static str,
-    #[serde(default = "default_icon_vcs_untracked")]
-    pub icon_vcs_untracked: &'static str,
-    #[serde(default = "default_icon_venv")]
-    pub icon_venv: &'static str,
-
     // misc
+    #[serde(default = "default_background_icon")]
+    pub background_icons: (String, String),
     #[serde(default = "default_cwd_darken")]
     pub cwd_darken: bool,
     #[serde(default = "default_cwd_darken_factor")]
@@ -52,66 +66,13 @@ pub struct Config {
     pub cwd_highlight_last: bool,
     #[serde(default = "default_venv_right_side")]
     pub venv_right_side: bool,
+
+    pub modules: Modules,
 }
 
-fn default_color1() -> &'static str {
-    "#2bd4ff"
-}
-
-fn default_color2() -> &'static str {
-    "#00e600"
-}
-
-fn default_color3() -> &'static str {
-    "#b5fd0d"
-}
-
-fn default_color_vcs_change() -> &'static str {
-    "#f4d03f"
-}
-
-fn default_color_venv() -> &'static str {
-    "#00c0a3"
-}
-
-fn default_icon_arrow() -> &'static str {
-    "➔"
-}
-
-fn default_icon_section_left() -> &'static str {
-    ""
-}
-
-fn default_icon_section_right() -> &'static str {
-    ""
-}
-
-fn default_icon_vcs_ahead() -> &'static str {
-    ""
-}
-
-fn default_icon_vcs_behind() -> &'static str {
-    ""
-}
-
-fn default_icon_vcs_branch() -> &'static str {
-    ""
-}
-
-fn default_icon_vcs_staged() -> &'static str {
-    "+"
-}
-
-fn default_icon_vcs_unstaged() -> &'static str {
-    "*"
-}
-
-fn default_icon_vcs_untracked() -> &'static str {
-    "?"
-}
-
-fn default_icon_venv() -> &'static str {
-    ""
+fn default_background_icon() -> (String, String) {
+    // , 
+    (String::from("\u{e0b6}"), String::from("\u{e0b4}"))
 }
 
 fn default_cwd_darken_factor() -> f64 {
@@ -127,9 +88,10 @@ fn default_cwd_highlight_last() -> bool {
 }
 
 fn default_venv_right_side() -> bool {
-    true
+    false
 }
 
 lazy_static! {
-    pub static ref CONFIG: Config = ron::from_str(CONFIG_TEXT).expect("failed to parse config.ron");
+    pub static ref CONFIG: Config =
+        serde_json::from_str(CONFIG_TEXT).expect("failed to parse configuration");
 }

@@ -1,9 +1,10 @@
+use crate::prompt::{left, right};
 use std::env::args;
 
-use crate::prompt::{left, right};
-
+mod arrow;
 mod config;
 mod cwd;
+mod icons;
 mod prompt;
 mod util;
 mod vcs;
@@ -15,6 +16,6 @@ fn main() {
     match mode.as_str() {
         "--left" => println!("{}", left()),
         "--right" => println!("{}", right()),
-        _ => println!("error: unknown mode {mode}"),
+        m => println!("unknown option {m}"),
     }
 }
