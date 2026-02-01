@@ -18,7 +18,7 @@ pub fn load_config() -> Result<Config, Error> {
     match CONFIG_SOURCE {
         ConfigSource::Hardcoded(s) => serde_json::from_str(s),
         ConfigSource::Hotload(s) => {
-            serde_json::from_str(&fs::read_to_string(s).unwrap_or(String::from("{}")))
+            serde_json::from_slice(&fs::read(s).expect("failed to read config"))
         }
     }
 }
