@@ -1,12 +1,7 @@
+use crate::config_loader::load_config;
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
 use std::fmt;
-
-mod generated {
-    include!(concat!(env!("OUT_DIR"), "/config.rs"));
-}
-
-use generated::CONFIG_TEXT;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -92,6 +87,5 @@ fn default_venv_right_side() -> bool {
 }
 
 lazy_static! {
-    pub static ref CONFIG: Config =
-        serde_json::from_str(CONFIG_TEXT).expect("failed to parse configuration");
+    pub static ref CONFIG: Config = load_config().expect("failed to load config");
 }

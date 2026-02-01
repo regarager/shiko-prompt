@@ -2,6 +2,7 @@ use crate::prompt::{left, right};
 use std::env::args;
 
 mod config;
+mod config_loader;
 mod modules;
 mod prompt;
 mod utils;
