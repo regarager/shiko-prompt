@@ -1,3 +1,4 @@
+use lazy_static::lazy_static;
 use regex::Regex;
 use std::process::Command;
 
@@ -12,9 +13,14 @@ struct GitInfo {
     pub staged: usize,
 }
 
+lazy_static! {
+    static ref AHEAD_REGEX: Regex = Regex::new("ahead [0-9]+").unwrap();
+    static ref BEHIND_REGEX: Regex = Regex::new("behind [0-9]+").unwrap();
+}
+
 fn parse_remote(line: &str) -> (usize, usize) {
-    let ahead_match = Regex::new("ahead [0-9]+").unwrap().find(line);
-    let behind_match = Regex::new("behind [0-9]+").unwrap().find(line);
+    let ahead_match = AHEAD_REGEX.find(line);
+    let behind_match = BEHIND_REGEX.find(line);
 
     let ahead = match ahead_match {
         // remove 6 characters for "behind "
