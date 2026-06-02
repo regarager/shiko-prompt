@@ -26,9 +26,8 @@ Ex: `sudo pacman -Syu rust` (Arch)
 
 ## Installation
 1. Clone the repository - `git clone https://github.com/regarager/shiko-prompt`
-2. Move repository into home-folder (or other preferred directory) - `mv shiko-prompt ~`
-3. Build the prompt binary - `cargo build --release` (alternatively, `SHIKO_THEME=./themes/<theme>.ron cargo build --release` for a different theme)
-4. Add `source ~/shiko-prompt/shiko.zsh` to your `~/.zshrc` and reload it with `source ~/.zshrc`.
+3. Build the prompt binary - `./install.sh <theme>` (themes must be given as file paths, such as the ones listed in `themes/`)
+4. Add `eval "$(shiko init)"` to your `~/.zshrc` and reload it with `source ~/.zshrc`.
 5. Enjoy!
 
 ## Customization
