@@ -32,4 +32,18 @@ Ex: `sudo pacman -Syu rust` (Arch)
 
 ## Customization
 
-As of now, there is no configuration wizard, but you may change colors in `config.ron` and rebuilding the `shiko-prompt` binary.
+As of now, there is no configuration wizard, but you may change colors in the theme JSON files in the `themes/` directory and rebuild the `shiko-prompt` binary.
+
+### Theme Selection
+
+To build with a specific theme, pass it as an argument to the install script:
+```bash
+./install.sh ./themes/campfire.json
+```
+
+Or build manually:
+```bash
+SHIKO_THEME=./themes/your-theme.json cargo build --release
+```
+
+The theme is compiled into the binary at build time. After building, add `eval "$(shiko init)"` to your `~/.zshrc`.
