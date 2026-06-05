@@ -1,5 +1,3 @@
-use string_builder::Builder;
-
 use crate::config::{CONFIG, ModuleConfig};
 use crate::modules::arrow::section_arrow;
 use crate::modules::cwd::section_cwd;
@@ -34,8 +32,6 @@ pub fn left() -> String {
         Some(&module_cfg.arrow),
     ];
 
-    let mut builder = Builder::default();
-
     let zip = vec
         .into_iter()
         .zip(modules)
@@ -59,41 +55,43 @@ pub fn left() -> String {
         return String::new();
     }
 
-    builder.append(fg_opt(&zip[0].1.bg));
+    let mut res = String::new();
+
+    res.push_str(&fg_opt(&zip[0].1.bg));
     if zip[0].1.bg.is_some() {
-        builder.append(CONFIG.background_icons.0.clone());
+        res.push_str(&CONFIG.background_icons.0.clone());
     }
-    builder.append(fg(&zip[0].1.fg));
-    builder.append(bg(&zip[0].1.bg));
-    builder.append(zip[0].1.prefix.clone());
-    builder.append(zip[0].0.clone());
-    builder.append(zip[0].1.suffix.clone());
+    res.push_str(&fg(&zip[0].1.fg));
+    res.push_str(&bg(&zip[0].1.bg));
+    res.push_str(&zip[0].1.prefix.clone());
+    res.push_str(&zip[0].0.clone());
+    res.push_str(&zip[0].1.suffix.clone());
 
     for i in 1..zip.len() {
-        builder.append(RESET);
-        builder.append(bg(&zip[i].1.bg));
+        res.push_str(RESET);
+        res.push_str(&bg(&zip[i].1.bg));
 
         if let Some(prev_bg) = &zip[i - 1].1.bg {
-            builder.append(fg(prev_bg));
-            builder.append(CONFIG.background_icons.1.clone());
+            res.push_str(&fg(prev_bg));
+            res.push_str(&CONFIG.background_icons.1.clone());
         }
 
-        builder.append(fg(&zip[i].1.fg));
-        builder.append(zip[i].1.prefix.clone());
-        builder.append(zip[i].0.clone());
-        builder.append(zip[i].1.suffix.clone());
+        res.push_str(&fg(&zip[i].1.fg));
+        res.push_str(&zip[i].1.prefix.clone());
+        res.push_str(&zip[i].0.clone());
+        res.push_str(&zip[i].1.suffix.clone());
     }
 
     if let Some(bg) = &zip[zip.len() - 1].1.bg {
-        builder.append(RESET);
-        builder.append(fg(bg));
-        builder.append(CONFIG.background_icons.1.clone());
-        builder.append(" ");
+        res.push_str(RESET);
+        res.push_str(&fg(bg));
+        res.push_str(&CONFIG.background_icons.1.clone());
+        res.push_str(" ");
     }
 
-    builder.append(RESET);
+    res.push_str(RESET);
 
-    builder.string().unwrap()
+    res
 }
 
 pub fn right() -> String {
