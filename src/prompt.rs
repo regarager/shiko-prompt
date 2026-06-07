@@ -5,7 +5,7 @@ use crate::modules::vcs::{section_vcs_branch, section_vcs_changes};
 use crate::modules::venv::section_venv;
 use crate::utils::text::{RESET, bg, fg, fg_opt};
 
-pub fn left() -> String {
+fn left() -> String {
     let mut vec: Vec<Option<String>> = Vec::new();
 
     vec.push(section_cwd());
@@ -94,7 +94,7 @@ pub fn left() -> String {
     res
 }
 
-pub fn right() -> String {
+fn right() -> String {
     if let Some(venv) = section_venv()
         && CONFIG.venv_right_side
     {
@@ -102,4 +102,12 @@ pub fn right() -> String {
     } else {
         String::new()
     }
+}
+
+pub fn print_left() {
+    println!("{}", left());
+}
+
+pub fn print_right() {
+    println!("{}", right());
 }
