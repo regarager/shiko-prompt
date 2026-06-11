@@ -4,7 +4,6 @@ use std::process::Command;
 
 use crate::utils::icons;
 
-#[derive(Debug, Default)]
 struct GitInfo {
     pub ahead: usize,
     pub behind: usize,
@@ -14,25 +13,21 @@ struct GitInfo {
 }
 
 lazy_static! {
-    static ref AHEAD_REGEX: Regex = Regex::new("ahead [0-9]+").unwrap();
-    static ref BEHIND_REGEX: Regex = Regex::new("behind [0-9]+").unwrap();
+    static ref REMOTE_REGEX: Regex = Regex::new("(ahead|behind) (\\d+)").unwrap();
 }
 
 fn parse_remote(line: &str) -> (usize, usize) {
-    let ahead_match = AHEAD_REGEX.find(line);
-    let behind_match = BEHIND_REGEX.find(line);
+    let mut ahead = 0;
+    let mut behind = 0;
 
-    let ahead = match ahead_match {
-        // remove 6 characters for "behind "
-        Some(x) => line[x.range()][6..].parse::<usize>().unwrap_or(0),
-        None => 0,
-    };
-
-    let behind = match behind_match {
-        // remove 7 characters for "behind "
-        Some(x) => line[x.range()][7..].parse::<usize>().unwrap_or(0),
-        None => 0,
-    };
+    for caps in REMOTE_REGEX.captures_iter(line) {
+        let count: usize = caps[2].parse().unwrap_or(0);
+        match &caps[1] {
+            "ahead" => ahead = count,
+            "behind" => behind = count,
+            _ => {}
+        }
+    }
 
     (ahead, behind)
 }
