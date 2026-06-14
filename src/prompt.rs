@@ -32,7 +32,7 @@ fn left() -> String {
         Some(&module_cfg.arrow),
     ];
 
-    let zip = vec
+    let sections: Vec<(String, &ModuleConfig)> = vec
         .into_iter()
         .zip(modules)
         .filter_map(|(x, y)| {
@@ -44,49 +44,49 @@ fn left() -> String {
                 None
             }
         })
-        .collect::<Vec<(String, &ModuleConfig)>>();
+        .collect();
 
     /*
      * for now, take bg separate from prefix, suffix
      * set prefix, suffix to part of the section
      */
 
-    if zip.is_empty() {
+    if sections.is_empty() {
         return String::new();
     }
 
     let mut res = String::new();
 
-    res.push_str(&fg_opt(&zip[0].1.bg));
-    if zip[0].1.bg.is_some() {
-        res.push_str(&CONFIG.background_icons.0.clone());
+    res.push_str(&fg_opt(&sections[0].1.bg));
+    if sections[0].1.bg.is_some() {
+        res.push_str(&CONFIG.background_icons.0);
     }
-    res.push_str(&fg(&zip[0].1.fg));
-    res.push_str(&bg(&zip[0].1.bg));
-    res.push_str(&zip[0].1.prefix.clone());
-    res.push_str(&zip[0].0.clone());
-    res.push_str(&zip[0].1.suffix.clone());
+    res.push_str(&fg(&sections[0].1.fg));
+    res.push_str(&bg(&sections[0].1.bg));
+    res.push_str(&sections[0].1.prefix);
+    res.push_str(&sections[0].0);
+    res.push_str(&sections[0].1.suffix);
 
-    for i in 1..zip.len() {
+    for i in 1..sections.len() {
         res.push_str(RESET);
-        res.push_str(&bg(&zip[i].1.bg));
+        res.push_str(&bg(&sections[i].1.bg));
 
-        if let Some(prev_bg) = &zip[i - 1].1.bg {
+        if let Some(prev_bg) = &sections[i - 1].1.bg {
             res.push_str(&fg(prev_bg));
-            res.push_str(&CONFIG.background_icons.1.clone());
+            res.push_str(&CONFIG.background_icons.1);
         }
 
-        res.push_str(&fg(&zip[i].1.fg));
-        res.push_str(&zip[i].1.prefix.clone());
-        res.push_str(&zip[i].0.clone());
-        res.push_str(&zip[i].1.suffix.clone());
+        res.push_str(&fg(&sections[i].1.fg));
+        res.push_str(&sections[i].1.prefix);
+        res.push_str(&sections[i].0);
+        res.push_str(&sections[i].1.suffix);
     }
 
-    if let Some(bg) = &zip[zip.len() - 1].1.bg {
+    if let Some(bg) = &sections[sections.len() - 1].1.bg {
         res.push_str(RESET);
         res.push_str(&fg(bg));
-        res.push_str(&CONFIG.background_icons.1.clone());
-        res.push_str(" ");
+        res.push_str(&CONFIG.background_icons.1);
+        res.push(' ');
     }
 
     res.push_str(RESET);
