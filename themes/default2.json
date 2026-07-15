@@ -5,30 +5,23 @@
   "venv_right_side": true,
   "modules": {
     "directory": {
-      "fg": "#2bd4ff",
-      "bg": "#696969 ",
-      "prefix": "",
+      "color": "#2bd4ff",
       "suffix": ""
     },
     "vcs_branch": {
-      "fg": "#00e600",
-      "bg": "#808080",
-      "prefix": " ",
+      "color": "#00e600",
       "suffix": ""
     },
     "vcs_changes": {
-      "fg": "#f4d03f",
-      "bg": "#808080",
-      "prefix": "",
+      "color": "#f4d03f",
       "suffix": ""
     },
     "venv": {
-      "fg": "#00c0a3",
-      "prefix": "",
+      "color": "#00c0a3",
       "suffix": ""
     },
     "arrow": {
-      "fg": "#b5fd0d",
+      "color": "#b5fd0d",
       "enabled": false
     }
   }

@@ -4,28 +4,28 @@ use std::env;
 use crate::config::CONFIG;
 use crate::utils::text::{bold, darken, fg};
 
-pub fn darken_prefix(prefix: &str) -> String {
+pub fn darken_prefix(cwd_prefix: &str) -> String {
     let config = &CONFIG.modules.directory;
-    let color = darken(&config.fg, CONFIG.cwd_darken_factor);
+    let color = darken(&config.color, CONFIG.cwd_darken_factor);
 
-    format!("{}{}", fg(&color), prefix)
+    format!("{}{}", fg(&color), cwd_prefix)
 }
 
 pub fn highlight_last(cwd: &str) -> String {
     let config = &CONFIG.modules.directory;
     let index = cwd.rfind("/").unwrap_or_default();
 
-    let prefix = &cwd[0..index];
+    let cwd_prefix = &cwd[0..index];
 
     if CONFIG.cwd_darken {
         format!(
             "{}{}{}",
-            darken_prefix(prefix),
-            fg(&config.fg),
+            darken_prefix(cwd_prefix),
+            fg(&config.color),
             bold(&cwd[index..])
         )
     } else {
-        format!("{}{}", prefix, bold(&cwd[index..]))
+        format!("{}{}", cwd_prefix, bold(&cwd[index..]))
     }
 }
 

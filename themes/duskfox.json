@@ -5,19 +5,19 @@
   "venv_right_side": true,
   "modules": {
     "directory": {
-      "fg": "#ccb1ed"
+      "color": "#ccb1ed"
     },
     "vcs_branch": {
-      "fg": "#b1d196"
+      "color": "#b1d196"
     },
     "vcs_changes": {
-      "fg": "#f9cb8c"
+      "color": "#f9cb8c"
     },
     "venv": {
-      "fg": "#65b1cd"
+      "color": "#65b1cd"
     },
     "arrow": {
-      "fg": "#f0a6cc"
+      "color": "#f0a6cc"
     }
   }
 }
