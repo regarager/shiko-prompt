@@ -2,7 +2,7 @@ use dirs::home_dir;
 use std::env;
 
 use crate::config::CONFIG;
-use crate::utils::text::{bold, darken, fg};
+use crate::utils::text::{RESET, bold, darken, fg};
 
 pub fn darken_prefix(cwd_prefix: &str) -> String {
     let config = &CONFIG.modules.directory;
@@ -56,6 +56,8 @@ pub fn section_cwd() -> Option<String> {
     } else {
         cwd = bold(&cwd);
     }
+
+    cwd.push_str(RESET);
 
     Some(cwd)
 }

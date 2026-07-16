@@ -3,7 +3,7 @@ use crate::modules::arrow::section_arrow;
 use crate::modules::cwd::section_cwd;
 use crate::modules::vcs::{section_vcs_branch, section_vcs_changes};
 use crate::modules::venv::section_venv;
-use crate::utils::text::{RESET, fg};
+use crate::utils::text::{fg};
 
 fn left() -> String {
     let mut vec: Vec<Option<String>> = Vec::new();
@@ -52,19 +52,13 @@ fn left() -> String {
 
     let mut res = String::new();
 
-    res.push_str(&fg(&zip[0].1.color));
-    res.push_str(&zip[0].0.clone());
-    res.push_str(&zip[0].1.suffix.clone());
-
-    for i in 1..zip.len() {
-        res.push_str(RESET);
-        res.push_str(&fg(&zip[i].1.color));
-        res.push_str(&zip[i].0.clone());
-        res.push_str(&zip[i].1.suffix.clone());
+    for it in zip.iter() {
+        res.push_str(&fg(&it.1.color));
+        res.push_str(&it.0);
+        res.push_str(&it.1.suffix);
     }
 
-    res.push_str(RESET);
-    res.push_str(" ");
+    res.push(' ');
 
     res
 }

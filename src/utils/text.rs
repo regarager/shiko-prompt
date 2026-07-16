@@ -1,4 +1,4 @@
-use crate::config::{Color};
+use crate::config::Color;
 
 pub const RESET: &str = "%f%k";
 
