@@ -21,10 +21,7 @@ impl fmt::Display for Color {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ModuleConfig {
-    pub fg: Color,
-    pub bg: Option<Color>,
-    #[serde(default)]
-    pub prefix: String,
+    pub color: Color,
     #[serde(default = "suffix_default")]
     pub suffix: String,
     #[serde(default = "enabled")]
@@ -51,8 +48,6 @@ pub struct Modules {
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Config {
     // misc
-    #[serde(default = "default_background_icon")]
-    pub background_icons: (String, String),
     #[serde(default = "default_cwd_darken")]
     pub cwd_darken: bool,
     #[serde(default = "default_cwd_darken_factor")]
@@ -63,11 +58,6 @@ pub struct Config {
     pub venv_right_side: bool,
 
     pub modules: Modules,
-}
-
-fn default_background_icon() -> (String, String) {
-    // , 
-    (String::from("\u{e0b6}"), String::from("\u{e0b4}"))
 }
 
 fn default_cwd_darken_factor() -> f64 {

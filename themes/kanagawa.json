@@ -5,23 +5,23 @@
   "venv_right_side": true,
   "modules": {
     "directory": {
-      "fg": "#7e9cd8",
+      "color": "#7e9cd8",
       "suffix": " "
     },
     "vcs_branch": {
-      "fg": "#98bb6c",
+      "color": "#98bb6c",
       "suffix": " "
     },
     "vcs_changes": {
-      "fg": "#dca561",
+      "color": "#dca561",
       "suffix": " "
     },
     "venv": {
-      "fg": "#2d4f67",
+      "color": "#2d4f67",
       "suffix": " "
     },
     "arrow": {
-      "fg": "#c8c093",
+      "color": "#c8c093",
       "suffix": " "
     }
   }

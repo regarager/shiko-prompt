@@ -1,6 +1,7 @@
-use lazy_static::lazy_static;
-use regex::Regex;
-use std::process::Command;
+use std::{
+    io,
+    process::{Command, Output},
+};
 
 use crate::utils::icons;
 
@@ -13,86 +14,83 @@ struct GitInfo {
     pub staged: usize,
 }
 
-lazy_static! {
-    static ref AHEAD_REGEX: Regex = Regex::new("ahead [0-9]+").unwrap();
-    static ref BEHIND_REGEX: Regex = Regex::new("behind [0-9]+").unwrap();
+fn git(args: &[&str]) -> io::Result<Output> {
+    Command::new("git").args(args).output()
 }
 
-fn parse_remote(line: &str) -> (usize, usize) {
-    let ahead_match = AHEAD_REGEX.find(line);
-    let behind_match = BEHIND_REGEX.find(line);
-
-    let ahead = match ahead_match {
-        // remove 6 characters for "behind "
-        Some(x) => line[x.range()][6..].parse::<usize>().unwrap_or(0),
-        None => 0,
-    };
-
-    let behind = match behind_match {
-        // remove 7 characters for "behind "
-        Some(x) => line[x.range()][7..].parse::<usize>().unwrap_or(0),
-        None => 0,
-    };
-
-    (ahead, behind)
+// counts lines of git command
+fn git_lines(args: &[&str]) -> usize {
+    git(args)
+        .ok()
+        .and_then(|out| String::from_utf8(out.stdout).ok())
+        .map(|s| s.lines().count())
+        .unwrap_or(0)
 }
 
-fn construct_info() -> Option<GitInfo> {
-    let output = Command::new("git").arg("status").arg("-sb").output().ok()?;
+fn is_repo() -> bool {
+    git(&["rev-parse", "--is-inside-work-tree"])
+        .ok()
+        .and_then(|out| String::from_utf8(out.stdout).ok())
+        .map(|s| s.trim() == "true")
+        .unwrap_or(false)
+}
+
+fn get_ahead_behind() -> Option<(usize, usize)> {
+    let output = git(&["rev-list", "--left-right", "--count", "HEAD...@{upstream}"]).ok()?;
 
     if !output.status.success() {
         return None;
     }
 
-    let mut info = GitInfo {
-        ahead: 0,
-        behind: 0,
-        untracked: 0,
-        unstaged: 0,
-        staged: 0,
-    };
+    let stdout = String::from_utf8(output.stdout).ok()?;
+    let mut parts = stdout.split_whitespace();
 
-    let status = String::from_utf8(output.stdout).ok()?;
+    let ahead = parts.next()?.parse::<usize>().ok()?;
+    let behind = parts.next()?.parse::<usize>().ok()?;
 
-    for line in status.lines() {
-        if line.len() < 2 {
-            continue;
-        }
+    Some((ahead, behind))
+}
 
-        if line.starts_with("##") {
-            (info.ahead, info.behind) = parse_remote(line);
-        }
-
-        match &line[0..2] {
-            "??" => info.untracked += 1,
-            s if s.starts_with(' ') || s.ends_with('M') => info.unstaged += 1,
-            s if s.ends_with(' ') => info.staged += 1, // not 100% sure if this is correct
-            _ => (),
-        }
+fn construct_info() -> Option<GitInfo> {
+    if !is_repo() {
+        return None;
     }
 
-    Some(info)
+    let (ahead, behind) = get_ahead_behind().unwrap_or((0, 0));
+
+    Some(GitInfo {
+        ahead,
+        behind,
+        untracked: git_lines(&["ls-files", "--others", "--exclude-standard"]),
+        unstaged: git_lines(&["diff", "--name-only"]),
+        staged: git_lines(&["diff", "--cached", "--name-only"]),
+    })
+}
+
+fn get_branch() -> Option<String> {
+    if let Ok(output) = git(&["symbolic-ref", "--short", "HEAD"])
+        && output.status.success()
+        && !output.stdout.is_empty()
+    {
+        return String::from_utf8(output.stdout)
+            .ok()
+            .map(|s| s.trim_end().to_string());
+    }
+
+    if let Ok(output) = git(&["rev-parse", "--short", "HEAD"])
+        && output.status.success()
+        && !output.stdout.is_empty()
+    {
+        return String::from_utf8(output.stdout)
+            .ok()
+            .map(|s| s.trim_end().to_string());
+    }
+
+    None
 }
 
 pub fn section_vcs_branch() -> Option<String> {
-    let output = Command::new("git")
-        .arg("symbolic-ref")
-        .arg("--short")
-        .arg("HEAD")
-        .output()
-        .ok();
-
-    if let Some(o) = output
-        && !o.stdout.is_empty()
-    {
-        Some(format!(
-            "{} {}",
-            icons::VCS_BRANCH,
-            String::from_utf8(o.stdout).unwrap().trim_end()
-        ))
-    } else {
-        None
-    }
+    get_branch().map(|branch| format!("{} {}", icons::VCS_BRANCH, branch))
 }
 
 pub fn section_vcs_changes() -> Option<String> {
