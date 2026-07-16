@@ -2,7 +2,8 @@
 
 set -e
 
-SHIKO_THEME="$1" cargo build --release
+theme="${1:-themes/default.json}"
+SHIKO_THEME="$theme" cargo build --release
 sudo cp ./target/release/shiko /usr/local/bin
 
 echo "Installed to /usr/local/bin/shiko"
