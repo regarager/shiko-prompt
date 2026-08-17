@@ -3,11 +3,13 @@ name = "shiko"
 version = "0.0.1"
 edition = "2024"
 
+[build-dependencies]
+serde_json = "1.0"
+
 [dependencies]
+anyhow = "1.0.102"
 dirs = "4.0"
 regex = "1.11.1"
 serde = { version = "1.0", features = ["derive"] }
-lazy_static = "1.4.0"
-string-builder = "0.2.0"
 serde_json = "1.0.149"
-anyhow = "1.0.102"
+lazy_static = "1.4.0"
