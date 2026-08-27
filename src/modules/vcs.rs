@@ -2,7 +2,7 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use std::process::Command;
 
-use crate::utils::icons;
+use crate::{config::CONFIG, icons, utils::fg};
 
 struct GitInfo {
     pub ahead: usize,
@@ -81,7 +81,8 @@ pub fn section_vcs_branch() -> Option<String> {
         && !o.stdout.is_empty()
     {
         Some(format!(
-            "{} {}",
+            "{}{} {}",
+            fg(&CONFIG.colors.git_branch),
             icons::VCS_BRANCH,
             String::from_utf8(o.stdout).unwrap().trim_end()
         ))
@@ -108,6 +109,6 @@ pub fn section_vcs_changes() -> Option<String> {
     if changes.is_empty() {
         None
     } else {
-        Some(changes)
+        Some(format!("{}{changes}", fg(&CONFIG.colors.git_changes)))
     }
 }

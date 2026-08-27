@@ -1,5 +1,5 @@
-use crate::utils::icons;
+use crate::{config::CONFIG, icons, utils::fg};
 
 pub fn section_arrow() -> Option<String> {
-    Some(icons::ARROW.to_string())
+    Some(format!("{}{}", fg(&CONFIG.colors.arrow), icons::ARROW))
 }

@@ -1,28 +1,11 @@
 {
-  "cwd_darken": true,
-  "cwd_darken_factor": 0.25,
-  "cwd_highlight_last": true,
-  "venv_right_side": true,
-  "modules": {
-    "directory": {
-      "fg": "#7e9cd8",
-      "suffix": " "
-    },
-    "vcs_branch": {
-      "fg": "#98bb6c",
-      "suffix": " "
-    },
-    "vcs_changes": {
-      "fg": "#dca561",
-      "suffix": " "
-    },
-    "venv": {
-      "fg": "#2d4f67",
-      "suffix": " "
-    },
-    "arrow": {
-      "fg": "#c8c093",
-      "suffix": " "
-    }
+  "cwd_darken": 0.25,
+  "cwd_bold_last": true,
+  "colors": {
+    "cwd": "#7e9cd8",
+    "git_branch": "#98bb6c",
+    "git_changes": "#dca561",
+    "arrow":"#c8c093",
+    "venv": "#2d4f67"
   }
 }
