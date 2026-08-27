@@ -1,23 +1,11 @@
 {
-  "cwd_darken": true,
-  "cwd_darken_factor": 0.25,
-  "cwd_highlight_last": true,
-  "venv_right_side": true,
-  "modules": {
-    "directory": {
-      "fg": "#f46e44"
-    },
-    "vcs_branch": {
-      "fg": "#ffa725"
-    },
-    "vcs_changes": {
-      "fg": "#ffd44a"
-    },
-    "venv": {
-      "fg": "#00c0a3"
-    },
-    "arrow": {
-      "fg": "#ffeaae"
-    }
+  "cwd_darken": 0.25,
+  "cwd_bold_last": true,
+  "colors": {
+    "directory": "#f46e44",
+    "git_branch": "#ffa725",
+    "git_changes": "#ffd44a",
+    "venv": "#00c0a3",
+    "arrow": "#ffeaae"
   }
 }
