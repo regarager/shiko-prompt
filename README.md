@@ -1,49 +1,29 @@
 # shiko-prompt
 
-## Screenshots
-
-### Default Theme
-
-![Normal](./images/default.png)
-![With VCS](./images/default_vcs.png)
-![Python venv](./images/default_venv.png)
-
-### Duskfox Theme
-
-![Normal](./images/duskfox.png)
-![With VCS](./images/duskfox_vcs.png)
-![Python venv](./images/duskfox_venv.png)
-
-
-### Campfire Theme
-![Normal](./images/campfire.png)
-![With VCS](./images/campfire_vcs.png)
-![Python venv](./images/campfire_venv.png)
-
-## Development Dependencies
-Install the following dependencies: `rust`
-Ex: `sudo pacman -Syu rust` (Arch)
+An opinionated Rust-based zsh prompt builder built to be lightweight and minimal. If you want something that is quick and easy to configure, then this is the propmt for you.
 
 ## Installation
-1. Clone the repository - `git clone https://github.com/regarager/shiko-prompt`
-3. Build the prompt binary - `./install.sh <theme>` (themes must be given as file paths, such as the ones listed in `themes/`)
-4. Add `eval "$(shiko init)"` to your `~/.zshrc` and reload it with `source ~/.zshrc`.
-5. Enjoy!
+
+Run `./install.sh <theme>` to build and install the prompt for a specific theme (e.g., `./install.sh themes/kanagawa.json`).
+
+## Usage
+
+Add `eval "$(shiko init)"` to your `.zshrc`.
+
+```zsh
+eval "$(shiko init)"
+```
 
 ## Customization
+The default theme may be found at `themes/default.json`.
 
-As of now, there is no configuration wizard, but you may change colors in the theme JSON files in the `themes/` directory and rebuild the `shiko-prompt` binary.
+### Options
+- `cwd_darken`: darken working directory prefix (0.0–1.0)
+- `cwd_bold_last`: bold the last path component
+- `colors.cwd`: working directory color
+- `colors.git_branch`: git branch name color
+- `colors.git_changes`: uncommitted changes color
+- `colors.arrow`: arrow separator color
+- `colors.venv`: virtual environment color
 
-### Theme Selection
-
-To build with a specific theme, pass it as an argument to the install script:
-```bash
-./install.sh ./themes/campfire.json
-```
-
-Or build manually:
-```bash
-SHIKO_THEME=./themes/your-theme.json cargo build --release
-```
-
-The theme is compiled into the binary at build time. After building, add `eval "$(shiko init)"` to your `~/.zshrc`.
+All `colors.*` values must be 6-digit hexadecimal (e.g., `#ffffff`).
