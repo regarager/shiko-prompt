@@ -1,7 +1,6 @@
 pub fn zsh_init() {
     println!(
         r#"
-autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
 
 build_prompt() {{
