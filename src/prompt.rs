@@ -1,14 +1,14 @@
 use crate::modules::arrow::section_arrow;
 use crate::modules::cwd::section_cwd;
-use crate::modules::vcs::{section_vcs_branch, section_vcs_changes};
+use crate::modules::git::{section_git_branch, section_git_changes};
 use crate::modules::venv::section_venv;
 use crate::utils::RESET;
 
 fn left() -> String {
     let vec: Vec<Option<String>> = vec![
         section_cwd(),
-        section_vcs_branch(),
-        section_vcs_changes(),
+        section_git_branch(),
+        section_git_changes(),
         section_arrow(),
     ];
 

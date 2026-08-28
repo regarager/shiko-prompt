@@ -1,7 +1,6 @@
 use std::env;
 
 use crate::config::CONFIG;
-use crate::icons;
 use crate::utils::fg;
 
 fn get_venv() -> Option<String> {
@@ -18,5 +17,5 @@ fn get_venv() -> Option<String> {
 }
 
 pub fn section_venv() -> Option<String> {
-    get_venv().map(|v| format!("{}{} {v}", fg(&CONFIG.colors.venv), icons::VENV))
+    get_venv().map(|v| format!("{}{} {v}", fg(&CONFIG.colors.venv), &CONFIG.icons.venv))
 }

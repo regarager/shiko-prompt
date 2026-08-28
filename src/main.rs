@@ -4,7 +4,6 @@ use std::env::args;
 
 mod config;
 mod config_loader;
-mod icons;
 mod modules;
 mod prompt;
 mod utils;

@@ -2,7 +2,7 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use std::process::Command;
 
-use crate::{config::CONFIG, icons, utils::fg};
+use crate::{config::CONFIG, utils::fg};
 
 struct GitInfo {
     pub ahead: usize,
@@ -69,7 +69,7 @@ fn construct_info() -> Option<GitInfo> {
     Some(info)
 }
 
-pub fn section_vcs_branch() -> Option<String> {
+pub fn section_git_branch() -> Option<String> {
     let output = Command::new("git")
         .arg("symbolic-ref")
         .arg("--short")
@@ -83,7 +83,7 @@ pub fn section_vcs_branch() -> Option<String> {
         Some(format!(
             "{}{} {}",
             fg(&CONFIG.colors.git_branch),
-            icons::VCS_BRANCH,
+            &CONFIG.icons.git_branch,
             String::from_utf8(o.stdout).unwrap().trim_end()
         ))
     } else {
@@ -91,14 +91,14 @@ pub fn section_vcs_branch() -> Option<String> {
     }
 }
 
-pub fn section_vcs_changes() -> Option<String> {
+pub fn section_git_changes() -> Option<String> {
     let info = construct_info()?;
     let changes = [
-        (info.ahead, icons::VCS_AHEAD),
-        (info.behind, icons::VCS_BEHIND),
-        (info.staged, icons::VCS_STAGED),
-        (info.unstaged, icons::VCS_UNSTAGED),
-        (info.untracked, icons::VCS_UNTRACKED),
+        (info.ahead, &CONFIG.icons.git_ahead),
+        (info.behind, &CONFIG.icons.git_behind),
+        (info.staged, &CONFIG.icons.git_staged),
+        (info.unstaged, &CONFIG.icons.git_unstaged),
+        (info.untracked, &CONFIG.icons.git_untracked),
     ]
     .iter()
     .filter(|(count, _)| *count > 0)

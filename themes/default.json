@@ -7,5 +7,15 @@
     "git_changes": "#f9cb8c",
     "venv": "#65b1cd",
     "arrow":"#f0a6cc"
+  },
+  "icons": {
+    "arrow": "➔",
+    "git_ahead": "",
+    "git_behind": "",
+    "git_branch": "",
+    "git_staged": "+",
+    "git_unstaged": "*",
+    "git_untracked": "?",
+    "venv": ""
   }
 }
