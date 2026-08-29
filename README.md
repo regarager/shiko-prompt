@@ -2,6 +2,8 @@
 
 An opinionated Rust-based zsh prompt builder built to be lightweight and minimal. If you want something that is quick and easy to configure, then this is the propmt for you.
 
+![kanagawa](media/kanagawa.gif)
+
 ## Installation
 
 Run `./install.sh <theme>` to build and install the prompt for a specific theme (e.g., `./install.sh themes/kanagawa.json`).
@@ -9,10 +11,6 @@ Run `./install.sh <theme>` to build and install the prompt for a specific theme 
 ## Usage
 
 Add `eval "$(shiko init)"` to your `.zshrc`.
-
-```zsh
-eval "$(shiko init)"
-```
 
 ## Customization
 The default theme may be found at `themes/default.json`.
