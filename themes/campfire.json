@@ -2,7 +2,7 @@
   "cwd_darken": 0.25,
   "cwd_bold_last": true,
   "colors": {
-    "directory": "#f46e44",
+    "cwd": "#f46e44",
     "git_branch": "#ffa725",
     "git_changes": "#ffd44a",
     "venv": "#00c0a3",
