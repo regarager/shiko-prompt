@@ -1,6 +1,6 @@
 # shiko-prompt
 
-An opinionated Rust-based zsh prompt builder built to be lightweight and minimal. If you want something that is quick and easy to configure, then this is the propmt for you.
+An opinionated Rust-based zsh prompt builder built to be lightweight and minimal. If you want something that is quick and easy to configure, then this is the prompt for you.
 
 ![kanagawa](media/kanagawa.gif)
 
