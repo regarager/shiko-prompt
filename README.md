@@ -1,3 +1,4 @@
+
 # shiko-prompt
 
 An opinionated Rust-based zsh prompt builder built to be lightweight and minimal. If you want something that is quick and easy to configure, then this is the prompt for you.
@@ -8,11 +9,47 @@ An opinionated Rust-based zsh prompt builder built to be lightweight and minimal
 
 Run `./install.sh <theme>` to build and install the prompt for a specific theme (e.g., `./install.sh themes/kanagawa.json`).
 
+## NixOS
+
+<details>
+  <summary>Installation (Flakes)</summary>
+
+Add the following to your `flakes.nix`:
+  ```nix
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager";
+    shiko-prompt.url = "github:regarager/shiko-prompt";
+  };
+  ```
+To configure with Home Manager, add the following:
+
+```nix
+{ inputs, ... }:
+{
+  imports = [ inputs.shiko-prompt.homeManagerModules.default ];
+
+  programs.shiko-prompt = {
+    enable = true;
+    theme = "themes/default.json";
+  };
+}
+```
+
+If Home Manager is used as a NixOS module, then thread inputs:
+
+```nix
+home-manager.extraSpecialArgs = { inherit inputs; };
+```
+
+</details>
+
 ## Usage
 
 Add `eval "$(shiko init)"` to your `.zshrc`.
 
 ## Customization
+
 The default theme may be found at `themes/default.json`.
 
 ### Options
@@ -61,3 +98,4 @@ The default theme configuration is shown below:
 | `icons.git_untracked` | string | Character shown for untracked files |
 
 All colors should be written in the format `#123456` (6 digit hexadecimal with leading #).
+
