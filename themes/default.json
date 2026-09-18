@@ -2,11 +2,11 @@
   "cwd_darken": 0.25,
   "cwd_bold_last": true,
   "colors": {
-    "cwd": "#ccb1ed",
-    "git_branch": "#b1d196",
-    "git_changes": "#f9cb8c",
-    "venv": "#65b1cd",
-    "arrow":"#f0a6cc"
+    "cwd": "#2bd4ff",
+    "git_branch": "#00e600",
+    "git_changes": "#f4d03f",
+    "venv": "#00c0a3",
+    "arrow": "#b5fd0d"
   },
   "icons": {
     "arrow": "➔",
