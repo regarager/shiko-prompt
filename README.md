@@ -7,12 +7,8 @@ An opinionated Rust-based zsh prompt builder built to be lightweight and minimal
 
 ## Installation
 
-Run `./install.sh <theme>` to build and install the prompt for a specific theme (e.g., `./install.sh themes/kanagawa.json`).
-
-## NixOS
-
 <details>
-  <summary>Installation (Flakes)</summary>
+  <summary>NixOS Installation (Flakes)</summary>
 
 Add the following to your `flakes.nix`:
   ```nix
@@ -43,6 +39,8 @@ home-manager.extraSpecialArgs = { inherit inputs; };
 ```
 
 </details>
+
+Run `./install.sh <theme>` to build and install the prompt for a specific theme (e.g., `./install.sh themes/kanagawa.json`).
 
 ## Usage
 
