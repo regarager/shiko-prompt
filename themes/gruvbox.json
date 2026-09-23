@@ -1,0 +1,21 @@
+{
+  "cwd_darken": 0.25,
+  "cwd_bold_last": true,
+  "colors": {
+    "cwd": "#b8bb26",
+    "git_branch": "#d65d0e",
+    "git_changes": "#d79921",
+    "venv": "#458588",
+    "arrow": "#fabd2f"
+  },
+  "icons": {
+    "arrow": "➔",
+    "git_ahead": "",
+    "git_behind": "",
+    "git_branch": "",
+    "git_staged": "+",
+    "git_unstaged": "*",
+    "git_untracked": "?",
+    "venv": ""
+  }
+}
