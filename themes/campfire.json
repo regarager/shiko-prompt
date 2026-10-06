@@ -1,9 +1,6 @@
-{
-  "colors": {
-    "cwd": "#f46e44",
-    "git_branch": "#ffa725",
-    "git_changes": "#ffd44a",
-    "venv": "#00c0a3",
-    "arrow": "#ffeaae"
-  }
-}
+[colors]
+cwd = "#f46e44"
+git_branch = "#ffa725"
+git_changes = "#ffd44a"
+venv = "#00c0a3"
+arrow = "#ffeaae"

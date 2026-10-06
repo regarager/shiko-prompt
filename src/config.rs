@@ -43,7 +43,7 @@ pub struct Icons {
 impl Default for Icons {
   fn default() -> Self {
     Self {
-      arrow: "\u{f061}".into(),      // 
+      arrow: "\u{2794}".into(),      // 
       git_ahead: "\u{f176}".into(),  // 
       git_behind: "\u{f175}".into(), // 
       git_branch: "\u{e0a0}".into(), // 

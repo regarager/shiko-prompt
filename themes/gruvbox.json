@@ -1,10 +1,7 @@
-{
-  "colors": {
-    "cwd": "#b8bb26",
-    "git_branch": "#d79921",
-    "git_changes": "#fabd2f",
-    "venv": "#458588",
-    "arrow": "#b16286",
-    "nixshell": "#8ec07c"
-  }
-}
+[colors]
+cwd = "#b8bb26"
+git_branch = "#d79921"
+git_changes = "#fabd2f"
+venv = "#458588"
+arrow = "#b16286"
+nixshell = "#8ec07c"

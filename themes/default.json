@@ -1,23 +1,21 @@
-{
-  "cwd_darken": 0.25,
-  "cwd_bold_last": true,
-  "colors": {
-    "cwd": "#2bd4ff",
-    "git_branch": "#00e600",
-    "git_changes": "#f4d03f",
-    "venv": "#00c0a3",
-    "arrow": "#b5fd0d",
-    "nixshell": "#4d72ba"
-  },
-  "icons": {
-    "arrow": "➔",
-    "git_ahead": "",
-    "git_behind": "",
-    "git_branch": "",
-    "git_staged": "+",
-    "git_unstaged": "*",
-    "git_untracked": "?",
-    "venv": "",
-    "nixshell": ""
-  }
-}
+cwd_darkn = 0.25
+cwd_bold_last = true
+
+[colors]
+cwd = "#2bd4ff"
+git_branch = "#00e600"
+git_changes = "#f4d03f"
+venv = "#00c0a3"
+arrow = "#b5fd0d"
+nixshell = "#4d72ba"
+
+[icons]
+arrow = "➔"
+git_ahead = ""
+git_behind = ""
+git_branch = ""
+git_staged = "+"
+git_unstaged = "*"
+git_untracked = "?"
+venv = ""
+nixshell = ""
