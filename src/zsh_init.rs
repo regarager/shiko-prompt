@@ -1,6 +1,6 @@
 pub fn zsh_init() {
-    println!(
-        r#"
+  println!(
+    r#"
 autoload -Uz add-zsh-hook
 
 build_prompt() {{
@@ -15,5 +15,5 @@ add-zsh-hook chpwd build_prompt
 
 build_prompt
         "#
-    );
+  );
 }

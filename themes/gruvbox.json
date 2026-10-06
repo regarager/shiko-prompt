@@ -1,6 +1,4 @@
 {
-  "cwd_darken": 0.25,
-  "cwd_bold_last": true,
   "colors": {
     "cwd": "#b8bb26",
     "git_branch": "#d79921",
@@ -8,16 +6,5 @@
     "venv": "#458588",
     "arrow": "#b16286",
     "nixshell": "#8ec07c"
-  },
-  "icons": {
-    "arrow": "➔",
-    "git_ahead": "",
-    "git_behind": "",
-    "git_branch": "",
-    "git_staged": "+",
-    "git_unstaged": "*",
-    "git_untracked": "?",
-    "venv": "",
-    "nixshell": ""
   }
 }
