@@ -2,6 +2,7 @@ use crate::modules::arrow::section_arrow;
 use crate::modules::cwd::section_cwd;
 use crate::modules::git::{section_git_branch, section_git_changes};
 use crate::modules::venv::section_venv;
+use crate::modules::nixshell::section_nixshell;
 use crate::utils::RESET;
 
 fn left() -> String {
@@ -25,7 +26,19 @@ fn left() -> String {
 }
 
 fn right() -> String {
-    section_venv().unwrap_or_default()
+    let vec: Vec<Option<String>> = vec![
+        section_venv(),
+        section_nixshell()
+    ];
+
+    let mut res = String::new();
+
+    vec.into_iter().flatten().for_each(|it| {
+        res.push(' ');
+        res.push_str(&it);
+    });
+
+    res
 }
 
 pub fn print_left() {

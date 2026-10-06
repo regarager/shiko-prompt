@@ -17,5 +17,5 @@ fn get_venv() -> Option<String> {
 }
 
 pub fn section_venv() -> Option<String> {
-    get_venv().map(|v| format!("{}{} {v}", fg(&CONFIG.colors.venv), &CONFIG.icons.venv))
+    get_venv().map(|v| format!("{}{} {v}", fg(&CONFIG.colors.venv), CONFIG.icons.venv))
 }

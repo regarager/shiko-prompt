@@ -9,6 +9,7 @@ pub struct Colors {
     pub git_changes: String,
     pub arrow: String,
     pub venv: String,
+    pub nixshell: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -21,6 +22,7 @@ pub struct Icons {
     pub git_unstaged: String,
     pub git_untracked: String,
     pub venv: String,
+    pub nixshell: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]

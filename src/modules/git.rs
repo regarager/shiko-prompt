@@ -83,7 +83,7 @@ pub fn section_git_branch() -> Option<String> {
         Some(format!(
             "{}{} {}",
             fg(&CONFIG.colors.git_branch),
-            &CONFIG.icons.git_branch,
+            CONFIG.icons.git_branch,
             String::from_utf8(o.stdout).unwrap().trim_end()
         ))
     } else {
